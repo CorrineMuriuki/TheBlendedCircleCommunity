@@ -182,15 +182,15 @@ export default function HomePage() {
               Get a glimpse of the conversations and connections happening in The Blended Circle.
             </p>
             
-            <div className="flex flex-col lg:flex-row gap-8">
+            <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
               {/* Community Spaces Navigation */}
-              <div className="lg:w-1/4 bg-white rounded-lg shadow-md p-5 h-min">
-                <h3 className="font-medium text-lg mb-4 pb-2 border-b border-neutral-100 text-[#9e7a68]">Community Spaces</h3>
-                <ul className="space-y-2">
+              <div className="w-full lg:w-1/4 bg-white rounded-xl shadow-md p-5 md:p-6 h-min order-2 lg:order-1">
+                <h3 className="font-medium text-lg mb-4 pb-2 border-b border-neutral-100 text-[#9e7a68] text-center lg:text-left">Community Spaces</h3>
+                <ul className="space-y-2 md:space-y-3">
                   {DEFAULT_CHAT_SPACES.map((space, index) => (
                     <li key={index}>
-                      <Link href={user ? "/chat" : "/auth"} className={`p-3 flex items-center rounded-md hover:bg-[#9e7a68] hover:bg-opacity-10 hover:text-[#9e7a68] transition-colors ${index === 0 ? 'bg-[#9e7a68] bg-opacity-10 text-[#9e7a68]' : ''}`}>
-                        <span className="material-icons mr-2 text-base">{space.isPrivate ? 'lock' : 'tag'}</span>
+                      <Link href={user ? "/chat" : "/auth"} className={`p-3 md:p-4 flex items-center rounded-md hover:bg-[#9e7a68] hover:bg-opacity-10 hover:text-[#9e7a68] transition-colors ${index === 0 ? 'bg-[#9e7a68] bg-opacity-10 text-[#9e7a68]' : ''}`}>
+                        <span className="material-icons mr-2 md:mr-3 text-base md:text-lg">{space.isPrivate ? 'lock' : 'tag'}</span>
                         <span className="font-medium">{space.name}</span>
                         {space.isPrivate && (
                           <span className="ml-auto text-xs bg-[#9e7a68] text-white px-2 py-1 rounded-full shadow-sm">
@@ -205,10 +205,10 @@ export default function HomePage() {
                   <Button 
                     asChild
                     variant="link" 
-                    className="w-full flex items-center justify-center gap-2 text-[#9e7a68] hover:text-[#876258] font-medium p-3"
+                    className="w-full flex items-center justify-center gap-2 text-[#9e7a68] hover:text-[#876258] font-medium p-3 md:p-4"
                   >
                     <Link href={user ? "/chat" : "/auth"}>
-                      <span className="material-icons text-base">add_circle</span>
+                      <span className="material-icons text-base md:text-lg">add_circle</span>
                       <span>Create New Space</span>
                     </Link>
                   </Button>
@@ -216,85 +216,93 @@ export default function HomePage() {
               </div>
               
               {/* Chat Preview */}
-              <div className="lg:w-3/4 bg-white rounded-lg shadow-md flex flex-col">
+              <div className="w-full lg:w-3/4 bg-white rounded-xl shadow-md flex flex-col order-1 lg:order-2 mb-6 lg:mb-0">
                 {/* Chat Header */}
-                <div className="p-5 border-b border-neutral-100 flex items-center justify-between">
+                <div className="p-5 md:p-6 border-b border-neutral-100 flex flex-wrap md:flex-nowrap items-center justify-between gap-2">
                   <div className="flex items-center">
-                    <span className="material-icons mr-2 text-[#9e7a68]">tag</span>
-                    <h3 className="font-medium text-lg text-[#9e7a68]">General Discussion</h3>
+                    <span className="material-icons mr-2 md:mr-3 text-xl text-[#9e7a68]">tag</span>
+                    <h3 className="font-medium text-lg md:text-xl text-[#9e7a68]">General Discussion</h3>
                   </div>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <span className="material-icons text-base mr-1">person</span>
+                  <div className="flex items-center text-sm md:text-base text-gray-500 ml-auto">
+                    <span className="material-icons text-base md:text-lg mr-1 md:mr-2">person</span>
                     <span>238 members</span>
                   </div>
                 </div>
                 
                 {/* Chat Messages */}
-                <div className="flex-grow p-5 overflow-y-auto space-y-5" style={{ maxHeight: "400px" }}>
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#9e7a68] bg-opacity-20 flex-shrink-0 flex items-center justify-center text-[#9e7a68] font-medium shadow-sm">
+                <div className="flex-grow p-5 md:p-6 overflow-y-auto space-y-5 md:space-y-6" style={{ maxHeight: "400px" }}>
+                  <div className="flex items-start gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#9e7a68] bg-opacity-20 flex-shrink-0 flex items-center justify-center text-[#9e7a68] font-medium shadow-sm">
                       SM
                     </div>
                     <div className="flex-1">
-                      <div className="flex flex-wrap items-baseline gap-2">
-                        <span className="font-medium text-[#9e7a68]">Sarah M.</span>
-                        <span className="text-xs text-gray-500">Today at 10:23 AM</span>
+                      <div className="flex flex-wrap items-baseline gap-2 mb-1 md:mb-2">
+                        <span className="font-medium text-[#9e7a68] text-base md:text-lg">Sarah M.</span>
+                        <span className="text-xs md:text-sm text-gray-500">Today at 10:23 AM</span>
                       </div>
-                      <div className="mt-1.5 bg-neutral-50 p-4 rounded-lg chat-bubble-left shadow-sm">
-                        <p className="text-gray-700">Hi everyone! I'm new to the community. My husband and I just blended our family with 3 kids from previous marriages. Looking for advice on holiday schedules!</p>
+                      <div className="bg-neutral-50 p-4 md:p-5 rounded-lg chat-bubble-left shadow-sm">
+                        <p className="text-gray-700 text-base md:text-lg">Hi everyone! I'm new to the community. My husband and I just blended our family with 3 kids from previous marriages. Looking for advice on holiday schedules!</p>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#9e7a68] flex-shrink-0 flex items-center justify-center text-white font-medium shadow-sm">
+                  <div className="flex items-start gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#9e7a68] flex-shrink-0 flex items-center justify-center text-white font-medium shadow-sm">
                       JD
                     </div>
                     <div className="flex-1">
-                      <div className="flex flex-wrap items-baseline gap-2">
-                        <span className="font-medium text-[#9e7a68]">James D.</span>
-                        <span className="text-xs text-gray-500">Today at 10:30 AM</span>
-                        <span className="text-xs px-2 py-0.5 bg-[#9e7a68] bg-opacity-10 text-[#9e7a68] rounded-full">Moderator</span>
+                      <div className="flex flex-wrap items-baseline gap-2 mb-1 md:mb-2">
+                        <span className="font-medium text-[#9e7a68] text-base md:text-lg">James D.</span>
+                        <span className="text-xs md:text-sm text-gray-500">Today at 10:30 AM</span>
+                        <span className="text-xs md:text-sm px-2 py-0.5 bg-[#9e7a68] bg-opacity-10 text-[#9e7a68] rounded-full">Moderator</span>
                       </div>
-                      <div className="mt-1.5 bg-neutral-50 p-4 rounded-lg chat-bubble-left shadow-sm">
-                        <p className="text-gray-700">Welcome, Sarah! Holiday scheduling can be tricky. We actually have a great resource in our Files section called "Holiday Planning for Blended Families". It has templates you can use!</p>
+                      <div className="bg-neutral-50 p-4 md:p-5 rounded-lg chat-bubble-left shadow-sm">
+                        <p className="text-gray-700 text-base md:text-lg">Welcome, Sarah! Holiday scheduling can be tricky. We actually have a great resource in our Files section called "Holiday Planning for Blended Families". It has templates you can use!</p>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[#9e7a68] bg-opacity-20 flex-shrink-0 flex items-center justify-center text-[#9e7a68] font-medium shadow-sm">
+                  <div className="flex items-start gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#9e7a68] bg-opacity-20 flex-shrink-0 flex items-center justify-center text-[#9e7a68] font-medium shadow-sm">
                       LW
                     </div>
                     <div className="flex-1">
-                      <div className="flex flex-wrap items-baseline gap-2">
-                        <span className="font-medium text-[#9e7a68]">Lisa W.</span>
-                        <span className="text-xs text-gray-500">Today at 10:45 AM</span>
+                      <div className="flex flex-wrap items-baseline gap-2 mb-1 md:mb-2">
+                        <span className="font-medium text-[#9e7a68] text-base md:text-lg">Lisa W.</span>
+                        <span className="text-xs md:text-sm text-gray-500">Today at 10:45 AM</span>
                       </div>
-                      <div className="mt-1.5 bg-neutral-50 p-4 rounded-lg chat-bubble-left shadow-sm">
-                        <p className="text-gray-700">@Sarah M. We've been a blended family for 5 years now. The biggest thing that helped us was creating a shared digital calendar that everyone (including co-parents) has access to. Happy to chat more about our system!</p>
+                      <div className="bg-neutral-50 p-4 md:p-5 rounded-lg chat-bubble-left shadow-sm">
+                        <p className="text-gray-700 text-base md:text-lg">@Sarah M. We've been a blended family for 5 years now. The biggest thing that helped us was creating a shared digital calendar that everyone (including co-parents) has access to. Happy to chat more about our system!</p>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 {/* Chat Input */}
-                <div className="p-5 border-t border-neutral-100">
+                <div className="p-5 md:p-6 border-t border-neutral-100">
                   <div className="relative">
                     <Input 
                       type="text" 
                       placeholder={user ? "Type your message..." : "Sign in to join the conversation"} 
                       disabled={!user}
-                      className="w-full px-4 py-3.5 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9e7a68] focus:border-transparent shadow-sm"
+                      className="w-full px-5 py-4 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9e7a68] focus:border-transparent shadow-sm text-base"
                     />
                     {user && (
                       <Button 
                         disabled
-                        className="absolute right-2 top-2 text-[#9e7a68] hover:text-[#876258]"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9e7a68] hover:text-[#876258]"
                         variant="ghost"
                         size="icon"
                       >
-                        <span className="material-icons">send</span>
+                        <span className="material-icons text-xl">send</span>
+                      </Button>
+                    )}
+                    {!user && (
+                      <Button
+                        asChild
+                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#9e7a68] hover:bg-[#876258] text-white text-sm px-4 py-1.5 rounded-full"
+                      >
+                        <Link href="/auth">Sign In</Link>
                       </Button>
                     )}
                   </div>
@@ -367,33 +375,33 @@ export default function HomePage() {
         </section>
         
         {/* Signup CTA */}
-        <section className="py-20 bg-[#9e7a68] relative overflow-hidden">
+        <section className="py-16 md:py-24 bg-[#9e7a68] relative overflow-hidden">
           {/* Background design elements */}
           <div className="absolute top-0 left-0 w-full h-20 bg-white opacity-5"></div>
           <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-white opacity-10 -mb-10 -mr-10"></div>
           <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-white opacity-10"></div>
           
-          <div className="container mx-auto px-4 text-center relative z-10">
-            <div className="mb-12">
-              <h2 className="text-2xl lg:text-4xl font-semibold text-white mb-4">Ready to Join The Blended Circle?</h2>
-              <p className="text-white text-lg max-w-2xl mx-auto mb-8">
+          <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
+            <div className="mb-8 md:mb-12">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-white mb-4 md:mb-6">Ready to Join The Blended Circle?</h2>
+              <p className="text-white text-base md:text-lg max-w-2xl mx-auto mb-6 md:mb-8 px-2">
                 Connect with families who understand your journey and find the support you need to thrive together.
               </p>
             </div>
             
             {/* Sign Up Form */}
-            <div className="max-w-md mx-auto bg-white rounded-lg p-8 shadow-xl">
-              <h3 className="text-xl font-medium mb-4">Create Your Account</h3>
+            <div className="max-w-md mx-auto bg-white rounded-xl p-6 md:p-8 shadow-xl">
+              <h3 className="text-xl md:text-2xl font-medium mb-6 text-[#9e7a68]">Create Your Account</h3>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 md:space-y-6">
                   <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel className="text-gray-700 font-medium">Full Name</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} className="py-3 px-4 border-neutral-200 focus:border-[#9e7a68] focus:ring-[#9e7a68] text-base" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -405,9 +413,9 @@ export default function HomePage() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email Address</FormLabel>
+                        <FormLabel className="text-gray-700 font-medium">Email Address</FormLabel>
                         <FormControl>
-                          <Input type="email" {...field} />
+                          <Input type="email" {...field} className="py-3 px-4 border-neutral-200 focus:border-[#9e7a68] focus:ring-[#9e7a68] text-base" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -419,9 +427,9 @@ export default function HomePage() {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel className="text-gray-700 font-medium">Password</FormLabel>
                         <FormControl>
-                          <Input type="password" {...field} />
+                          <Input type="password" {...field} className="py-3 px-4 border-neutral-200 focus:border-[#9e7a68] focus:ring-[#9e7a68] text-base" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -432,15 +440,16 @@ export default function HomePage() {
                     control={form.control}
                     name="agreeTerms"
                     render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 mt-2">
                         <FormControl>
                           <Checkbox
                             checked={field.value}
                             onCheckedChange={field.onChange}
+                            className="border-neutral-300 data-[state=checked]:bg-[#9e7a68] data-[state=checked]:border-[#9e7a68]"
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel>
+                          <FormLabel className="text-gray-600 text-sm">
                             I agree to the <a href="#" className="text-[#9e7a68] font-medium hover:underline">Terms of Service</a> and <a href="#" className="text-[#9e7a68] font-medium hover:underline">Privacy Policy</a>
                           </FormLabel>
                           <FormMessage />
@@ -451,13 +460,13 @@ export default function HomePage() {
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-[#9e7a68] hover:bg-[#876258] text-white font-medium px-6 py-3 rounded-full shadow-md transition-all duration-300 transform hover:scale-105"
+                    className="w-full bg-[#9e7a68] hover:bg-[#876258] text-white font-medium px-6 py-3.5 mt-4 rounded-full shadow-md transition-all duration-300 transform hover:scale-105 text-base md:text-lg"
                   >
                     Create Account
                   </Button>
                 </form>
               </Form>
-              <div className="mt-4 text-center text-sm text-neutral-dark">
+              <div className="mt-5 text-center text-sm text-gray-600">
                 Already have an account? <Link href="/auth" className="text-[#9e7a68] font-medium hover:underline">Sign In</Link>
               </div>
             </div>
