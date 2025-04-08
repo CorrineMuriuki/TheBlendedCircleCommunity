@@ -2,6 +2,7 @@ import { users, type User, type InsertUser, chatSpaces, type ChatSpace, type Ins
 import session from "express-session";
 import createMemoryStore from "memorystore";
 
+// Create the memory store factory
 const MemoryStore = createMemoryStore(session);
 
 export interface IStorage {
@@ -41,7 +42,7 @@ export interface IStorage {
   updateProductInventory(productId: number, amount: number): Promise<Product>;
   
   // Sessions
-  sessionStore: ReturnType<typeof createMemoryStore>;
+  sessionStore: session.Store;
 }
 
 export class MemStorage implements IStorage {
@@ -54,7 +55,7 @@ export class MemStorage implements IStorage {
   private products: Map<number, Product>;
   private newsletterEmails: Set<string>;
   
-  sessionStore: ReturnType<typeof createMemoryStore>;
+  sessionStore: session.Store;
   
   private userIdCounter: number = 1;
   private chatSpaceIdCounter: number = 1;

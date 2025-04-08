@@ -134,16 +134,14 @@ export default function HomePage() {
                 <ul className="space-y-2">
                   {DEFAULT_CHAT_SPACES.map((space, index) => (
                     <li key={index}>
-                      <Link href={user ? "/chat" : "/auth"}>
-                        <a className={`p-2 flex items-center rounded-md hover:bg-primary-light hover:text-primary-dark transition-colors ${index === 0 ? 'bg-primary bg-opacity-10 text-primary' : ''}`}>
-                          <span className="material-icons mr-2 text-sm">{space.isPrivate ? 'lock' : 'tag'}</span>
-                          <span>{space.name}</span>
-                          {space.isPrivate && (
-                            <span className="ml-auto text-xs bg-primary text-white px-2 py-1 rounded-full">
-                              {space.memberCount}
-                            </span>
-                          )}
-                        </a>
+                      <Link href={user ? "/chat" : "/auth"} className={`p-2 flex items-center rounded-md hover:bg-primary-light hover:text-primary-dark transition-colors ${index === 0 ? 'bg-primary bg-opacity-10 text-primary' : ''}`}>
+                        <span className="material-icons mr-2 text-sm">{space.isPrivate ? 'lock' : 'tag'}</span>
+                        <span>{space.name}</span>
+                        {space.isPrivate && (
+                          <span className="ml-auto text-xs bg-primary text-white px-2 py-1 rounded-full">
+                            {space.memberCount}
+                          </span>
+                        )}
                       </Link>
                     </li>
                   ))}
