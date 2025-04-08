@@ -111,11 +111,14 @@ export default function HomePage() {
         </section>
         
         {/* Features Section */}
-        <section className="py-16 bg-white">
+        <section className="py-16 md:py-20 bg-white">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-12">What Makes Our Community Special</h2>
+            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4 text-[#9e7a68]">What Makes Our Community Special</h2>
+            <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
+              Discover the unique benefits of joining our supportive community
+            </p>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {FEATURES.map((feature, index) => (
                 <FeatureCard
                   key={index}
@@ -172,25 +175,25 @@ export default function HomePage() {
         </section>
         
         {/* Community Preview Section */}
-        <section className="py-16 bg-neutral-lightest">
+        <section className="py-16 md:py-20 bg-neutral-50">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4">Experience Our Community</h2>
-            <p className="text-center text-neutral-dark max-w-2xl mx-auto mb-12">
+            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4 text-[#9e7a68]">Experience Our Community</h2>
+            <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
               Get a glimpse of the conversations and connections happening in The Blended Circle.
             </p>
             
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Community Spaces Navigation */}
-              <div className="lg:w-1/4 bg-white rounded-lg shadow-sm p-4 h-min">
-                <h3 className="font-medium text-lg mb-4 pb-2 border-b border-neutral-light">Community Spaces</h3>
+              <div className="lg:w-1/4 bg-white rounded-lg shadow-md p-5 h-min">
+                <h3 className="font-medium text-lg mb-4 pb-2 border-b border-neutral-100 text-[#9e7a68]">Community Spaces</h3>
                 <ul className="space-y-2">
                   {DEFAULT_CHAT_SPACES.map((space, index) => (
                     <li key={index}>
-                      <Link href={user ? "/chat" : "/auth"} className={`p-2 flex items-center rounded-md hover:bg-primary-light hover:text-primary-dark transition-colors ${index === 0 ? 'bg-primary bg-opacity-10 text-primary' : ''}`}>
-                        <span className="material-icons mr-2 text-sm">{space.isPrivate ? 'lock' : 'tag'}</span>
-                        <span>{space.name}</span>
+                      <Link href={user ? "/chat" : "/auth"} className={`p-3 flex items-center rounded-md hover:bg-[#9e7a68] hover:bg-opacity-10 hover:text-[#9e7a68] transition-colors ${index === 0 ? 'bg-[#9e7a68] bg-opacity-10 text-[#9e7a68]' : ''}`}>
+                        <span className="material-icons mr-2 text-base">{space.isPrivate ? 'lock' : 'tag'}</span>
+                        <span className="font-medium">{space.name}</span>
                         {space.isPrivate && (
-                          <span className="ml-auto text-xs bg-primary text-white px-2 py-1 rounded-full">
+                          <span className="ml-auto text-xs bg-[#9e7a68] text-white px-2 py-1 rounded-full shadow-sm">
                             {space.memberCount}
                           </span>
                         )}
@@ -198,14 +201,14 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <div className="mt-4 pt-4 border-t border-neutral-light">
+                <div className="mt-4 pt-4 border-t border-neutral-100">
                   <Button 
                     asChild
                     variant="link" 
-                    className="w-full flex items-center justify-center gap-2 text-primary hover:text-primary-dark"
+                    className="w-full flex items-center justify-center gap-2 text-[#9e7a68] hover:text-[#876258] font-medium p-3"
                   >
                     <Link href={user ? "/chat" : "/auth"}>
-                      <span className="material-icons text-sm">add_circle</span>
+                      <span className="material-icons text-base">add_circle</span>
                       <span>Create New Space</span>
                     </Link>
                   </Button>
@@ -213,81 +216,81 @@ export default function HomePage() {
               </div>
               
               {/* Chat Preview */}
-              <div className="lg:w-3/4 bg-white rounded-lg shadow-sm flex flex-col">
+              <div className="lg:w-3/4 bg-white rounded-lg shadow-md flex flex-col">
                 {/* Chat Header */}
-                <div className="p-4 border-b border-neutral-light flex items-center justify-between">
+                <div className="p-5 border-b border-neutral-100 flex items-center justify-between">
                   <div className="flex items-center">
-                    <span className="material-icons mr-2">tag</span>
-                    <h3 className="font-medium">General Discussion</h3>
+                    <span className="material-icons mr-2 text-[#9e7a68]">tag</span>
+                    <h3 className="font-medium text-lg text-[#9e7a68]">General Discussion</h3>
                   </div>
-                  <div className="flex items-center text-sm text-neutral">
-                    <span className="material-icons text-sm mr-1">person</span>
+                  <div className="flex items-center text-sm text-gray-500">
+                    <span className="material-icons text-base mr-1">person</span>
                     <span>238 members</span>
                   </div>
                 </div>
                 
                 {/* Chat Messages */}
-                <div className="flex-grow p-4 overflow-y-auto space-y-4" style={{ maxHeight: "400px" }}>
+                <div className="flex-grow p-5 overflow-y-auto space-y-5" style={{ maxHeight: "400px" }}>
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-primary-light flex-shrink-0 flex items-center justify-center text-primary-dark font-medium">
+                    <div className="w-10 h-10 rounded-full bg-[#9e7a68] bg-opacity-20 flex-shrink-0 flex items-center justify-center text-[#9e7a68] font-medium shadow-sm">
                       SM
                     </div>
-                    <div>
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-medium">Sarah M.</span>
-                        <span className="text-xs text-neutral">Today at 10:23 AM</span>
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-baseline gap-2">
+                        <span className="font-medium text-[#9e7a68]">Sarah M.</span>
+                        <span className="text-xs text-gray-500">Today at 10:23 AM</span>
                       </div>
-                      <div className="mt-1 bg-neutral-lightest p-3 rounded-lg chat-bubble-left">
-                        <p>Hi everyone! I'm new to the community. My husband and I just blended our family with 3 kids from previous marriages. Looking for advice on holiday schedules!</p>
+                      <div className="mt-1.5 bg-neutral-50 p-4 rounded-lg chat-bubble-left shadow-sm">
+                        <p className="text-gray-700">Hi everyone! I'm new to the community. My husband and I just blended our family with 3 kids from previous marriages. Looking for advice on holiday schedules!</p>
                       </div>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center text-white font-medium">
+                    <div className="w-10 h-10 rounded-full bg-[#9e7a68] flex-shrink-0 flex items-center justify-center text-white font-medium shadow-sm">
                       JD
                     </div>
-                    <div>
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-medium">James D.</span>
-                        <span className="text-xs text-neutral">Today at 10:30 AM</span>
-                        <span className="text-xs px-2 py-0.5 bg-primary-light text-primary-dark rounded-full">Moderator</span>
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-baseline gap-2">
+                        <span className="font-medium text-[#9e7a68]">James D.</span>
+                        <span className="text-xs text-gray-500">Today at 10:30 AM</span>
+                        <span className="text-xs px-2 py-0.5 bg-[#9e7a68] bg-opacity-10 text-[#9e7a68] rounded-full">Moderator</span>
                       </div>
-                      <div className="mt-1 bg-neutral-lightest p-3 rounded-lg chat-bubble-left">
-                        <p>Welcome, Sarah! Holiday scheduling can be tricky. We actually have a great resource in our Files section called "Holiday Planning for Blended Families". It has templates you can use!</p>
+                      <div className="mt-1.5 bg-neutral-50 p-4 rounded-lg chat-bubble-left shadow-sm">
+                        <p className="text-gray-700">Welcome, Sarah! Holiday scheduling can be tricky. We actually have a great resource in our Files section called "Holiday Planning for Blended Families". It has templates you can use!</p>
                       </div>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 rounded-full bg-primary-light flex-shrink-0 flex items-center justify-center text-primary-dark font-medium">
+                    <div className="w-10 h-10 rounded-full bg-[#9e7a68] bg-opacity-20 flex-shrink-0 flex items-center justify-center text-[#9e7a68] font-medium shadow-sm">
                       LW
                     </div>
-                    <div>
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-medium">Lisa W.</span>
-                        <span className="text-xs text-neutral">Today at 10:45 AM</span>
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-baseline gap-2">
+                        <span className="font-medium text-[#9e7a68]">Lisa W.</span>
+                        <span className="text-xs text-gray-500">Today at 10:45 AM</span>
                       </div>
-                      <div className="mt-1 bg-neutral-lightest p-3 rounded-lg chat-bubble-left">
-                        <p>@Sarah M. We've been a blended family for 5 years now. The biggest thing that helped us was creating a shared digital calendar that everyone (including co-parents) has access to. Happy to chat more about our system!</p>
+                      <div className="mt-1.5 bg-neutral-50 p-4 rounded-lg chat-bubble-left shadow-sm">
+                        <p className="text-gray-700">@Sarah M. We've been a blended family for 5 years now. The biggest thing that helped us was creating a shared digital calendar that everyone (including co-parents) has access to. Happy to chat more about our system!</p>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 {/* Chat Input */}
-                <div className="p-4 border-t border-neutral-light">
+                <div className="p-5 border-t border-neutral-100">
                   <div className="relative">
                     <Input 
                       type="text" 
                       placeholder={user ? "Type your message..." : "Sign in to join the conversation"} 
                       disabled={!user}
-                      className="w-full px-4 py-3 border border-neutral-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="w-full px-4 py-3.5 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9e7a68] focus:border-transparent shadow-sm"
                     />
                     {user && (
                       <Button 
                         disabled
-                        className="absolute right-2 top-2 text-primary hover:text-primary-dark"
+                        className="absolute right-2 top-2 text-[#9e7a68] hover:text-[#876258]"
                         variant="ghost"
                         size="icon"
                       >
@@ -325,10 +328,10 @@ export default function HomePage() {
         </section>
         
         {/* Membership Section */}
-        <section className="py-16 bg-white">
+        <section className="py-16 md:py-20 bg-white">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4">Join Our Community</h2>
-            <p className="text-center text-neutral-dark max-w-2xl mx-auto mb-12">
+            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4 text-[#9e7a68]">Join Our Community</h2>
+            <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
               Select the membership plan that works best for you and your family.
             </p>
             
