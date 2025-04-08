@@ -1,9 +1,8 @@
 import { users, type User, type InsertUser, chatSpaces, type ChatSpace, type InsertChatSpace, chatMessages, type ChatMessage, type InsertChatMessage, chatSpaceMemberships, type ChatSpaceMembership, events, type Event, type InsertEvent, eventAttendance, type EventAttendance, products, type Product, type InsertProduct } from "@shared/schema";
 import session from "express-session";
-import createMemoryStore from "memorystore";
-
-// Create the memory store factory
-const MemoryStore = createMemoryStore(session);
+import { db } from "./db";
+import { eq, and, desc, sql as sqlQuery } from "drizzle-orm";
+import connectPg from "connect-pg-simple";
 
 export interface IStorage {
   // Auth & User
@@ -45,166 +44,56 @@ export interface IStorage {
   sessionStore: session.Store;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private chatSpaces: Map<number, ChatSpace>;
-  private chatMessages: Map<number, ChatMessage>;
-  private chatSpaceMemberships: Map<number, ChatSpaceMembership>;
-  private events: Map<number, Event>;
-  private eventAttendances: Map<number, EventAttendance>;
-  private products: Map<number, Product>;
-  private newsletterEmails: Set<string>;
-  
+export class DatabaseStorage implements IStorage {
   sessionStore: session.Store;
   
-  private userIdCounter: number = 1;
-  private chatSpaceIdCounter: number = 1;
-  private chatMessageIdCounter: number = 1;
-  private chatSpaceMembershipIdCounter: number = 1;
-  private eventIdCounter: number = 1;
-  private eventAttendanceIdCounter: number = 1;
-  private productIdCounter: number = 1;
-
   constructor() {
-    this.users = new Map();
-    this.chatSpaces = new Map();
-    this.chatMessages = new Map();
-    this.chatSpaceMemberships = new Map();
-    this.events = new Map();
-    this.eventAttendances = new Map();
-    this.products = new Map();
-    this.newsletterEmails = new Set();
-    
-    this.sessionStore = new MemoryStore({
-      checkPeriod: 86400000 // prune expired entries every 24h
+    // Initialize the PostgreSQL session store
+    const PostgresStore = connectPg(session);
+    this.sessionStore = new PostgresStore({
+      conObject: {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false }
+      },
+      createTableIfMissing: true
     });
-    
-    // Initialize with sample data
-    this.initializeData();
   }
   
-  private initializeData() {
-    // Create sample public chat spaces
-    this.createChatSpace({
-      name: "General Discussion",
-      description: "A place for all members to discuss general topics",
-      isPrivate: false,
-      createdById: 0
-    });
-    
-    this.createChatSpace({
-      name: "Step-Parenting Support",
-      description: "Support and advice for step-parents",
-      isPrivate: false,
-      createdById: 0
-    });
-    
-    this.createChatSpace({
-      name: "Co-Parenting Strategies",
-      description: "Strategies and tips for effective co-parenting",
-      isPrivate: false,
-      createdById: 0
-    });
-    
-    this.createChatSpace({
-      name: "Blended Family Success",
-      description: "Share your success stories and challenges",
-      isPrivate: false,
-      createdById: 0
-    });
-    
-    // Create sample events
-    const now = new Date();
-    
-    this.createEvent({
-      title: "Effective Communication in Blended Families",
-      description: "Join family therapist Dr. Angela Martinez as she shares practical communication strategies for blended families.",
-      eventType: "workshop",
-      startDate: new Date(now.getFullYear(), now.getMonth() + 1, 15, 19, 0),
-      endDate: new Date(now.getFullYear(), now.getMonth() + 1, 15, 20, 30),
-      imageUrl: "https://images.unsplash.com/photo-1543269865-cbf427effbad",
-      location: "Zoom",
-      isVirtual: true,
-      maxAttendees: 100,
-      createdById: 0
-    });
-    
-    this.createEvent({
-      title: "Virtual Family Game Night",
-      description: "Bring the whole family for a fun evening of virtual games designed to strengthen family bonds across households.",
-      eventType: "social",
-      startDate: new Date(now.getFullYear(), now.getMonth() + 1, 22, 18, 0),
-      endDate: new Date(now.getFullYear(), now.getMonth() + 1, 22, 20, 0),
-      imageUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac",
-      location: "Zoom",
-      isVirtual: true,
-      maxAttendees: 50,
-      createdById: 0
-    });
-    
-    this.createEvent({
-      title: "Co-Parenting Success Strategies",
-      description: "Expert panel discussion featuring family counselors and successful co-parents sharing their insights.",
-      eventType: "live",
-      startDate: new Date(now.getFullYear(), now.getMonth() + 2, 3, 13, 0),
-      endDate: new Date(now.getFullYear(), now.getMonth() + 2, 3, 14, 30),
-      imageUrl: "https://images.unsplash.com/photo-1573497620053-ea5300f94f21",
-      location: "Zoom",
-      isVirtual: true,
-      maxAttendees: 200,
-      createdById: 0
-    });
-    
-    // Create sample products
-    this.createProduct({
-      name: "The Blended Circle T-Shirt",
-      description: "Comfortable cotton t-shirt with The Blended Circle logo",
-      price: 2499, // $24.99
-      imageUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
-      inventory: 100
-    });
-    
-    this.createProduct({
-      name: "Blended Family Planner",
-      description: "A specialized planner designed for managing blended family schedules",
-      price: 3499, // $34.99
-      imageUrl: "https://images.unsplash.com/photo-1506784365847-bbad939e9335",
-      inventory: 50
-    });
-    
-    this.createProduct({
-      name: "Family Communication Cards",
-      description: "Card prompts to facilitate meaningful conversations between family members",
-      price: 1999, // $19.99
-      imageUrl: "https://images.unsplash.com/photo-1596495718165-fb1f85de159c",
-      inventory: 75
-    });
-  }
+  // This method has been removed as we no longer need to initialize sample data
+  // Sample data will be populated through the database migrations
 
   // USER METHODS
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username.toLowerCase() === username.toLowerCase()
-    );
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(sqlQuery`LOWER(${users.username}) = LOWER(${username})`);
+    return user;
   }
   
   async getUserByEmail(email: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.email.toLowerCase() === email.toLowerCase()
-    );
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(sqlQuery`LOWER(${users.email}) = LOWER(${email})`);
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.userIdCounter++;
     const now = new Date();
-    const user: User = {
-      ...insertUser,
-      id,
-      subscriptionTier: 'free',
+    
+    // Set default values for missing fields but keep only the fields defined in the schema
+    const userData = {
+      username: insertUser.username,
+      password: insertUser.password, 
+      email: insertUser.email,
+      displayName: insertUser.displayName,
+      subscriptionTier: 'free' as const,
       activityScore: 0,
       stripeCustomerId: null,
       stripeSubscriptionId: null,
@@ -213,118 +102,189 @@ export class MemStorage implements IStorage {
       newsletterSubscription: insertUser.newsletterSubscription || false,
       createdAt: now
     };
-    this.users.set(id, user);
+    
+    // Insert the user and return the created user
+    const [user] = await db.insert(users).values(userData).returning();
     return user;
   }
   
   async updateNewsletterPreference(userId: number, subscribed: boolean): Promise<User> {
-    const user = await this.getUser(userId);
+    const [user] = await db
+      .update(users)
+      .set({ newsletterSubscription: subscribed })
+      .where(eq(users.id, userId))
+      .returning();
+    
     if (!user) {
       throw new Error("User not found");
-    }
-    
-    user.newsletterSubscription = subscribed;
-    this.users.set(userId, user);
-    
-    if (subscribed) {
-      this.newsletterEmails.add(user.email);
     }
     
     return user;
   }
   
   async addNewsletterSubscription(email: string): Promise<void> {
-    this.newsletterEmails.add(email);
+    // Check if the user exists
+    const user = await this.getUserByEmail(email);
+    
+    if (user) {
+      // Update existing user
+      await this.updateNewsletterPreference(user.id, true);
+    } else {
+      // Store email for future use (could create a separate table for this)
+      await db.execute(sqlQuery`
+        INSERT INTO newsletter_emails (email) 
+        VALUES (${email})
+        ON CONFLICT (email) DO NOTHING
+      `);
+    }
   }
   
   async updateStripeCustomerId(userId: number, customerId: string): Promise<User> {
-    const user = await this.getUser(userId);
+    const [user] = await db
+      .update(users)
+      .set({ stripeCustomerId: customerId })
+      .where(eq(users.id, userId))
+      .returning();
+    
     if (!user) {
       throw new Error("User not found");
     }
-    
-    user.stripeCustomerId = customerId;
-    this.users.set(userId, user);
     
     return user;
   }
   
   async updateStripeSubscriptionId(userId: number, subscriptionId: string): Promise<User> {
-    const user = await this.getUser(userId);
+    const [user] = await db
+      .update(users)
+      .set({ stripeSubscriptionId: subscriptionId })
+      .where(eq(users.id, userId))
+      .returning();
+    
     if (!user) {
       throw new Error("User not found");
     }
-    
-    user.stripeSubscriptionId = subscriptionId;
-    this.users.set(userId, user);
     
     return user;
   }
   
   async updateSubscriptionTier(userId: number, tier: 'basic' | 'family' | 'premium'): Promise<User> {
-    const user = await this.getUser(userId);
+    const [user] = await db
+      .update(users)
+      .set({ subscriptionTier: tier })
+      .where(eq(users.id, userId))
+      .returning();
+    
     if (!user) {
       throw new Error("User not found");
     }
-    
-    user.subscriptionTier = tier;
-    this.users.set(userId, user);
     
     return user;
   }
   
   async updateActivityScore(userId: number, amount: number): Promise<User | undefined> {
-    const user = await this.getUser(userId);
-    if (!user) {
-      console.warn(`Attempted to update activity score for non-existent user ID: ${userId}`);
+    try {
+      const [user] = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, userId));
+      
+      if (!user) {
+        console.warn(`Attempted to update activity score for non-existent user ID: ${userId}`);
+        return undefined;
+      }
+      
+      // Calculate new score
+      const currentScore = user.activityScore || 0;
+      const newScore = currentScore + amount;
+      
+      // Update user
+      const [updatedUser] = await db
+        .update(users)
+        .set({ activityScore: newScore })
+        .where(eq(users.id, userId))
+        .returning();
+        
+      return updatedUser;
+    } catch (error) {
+      console.error(`Error updating activity score: ${error}`);
       return undefined;
     }
-    
-    // Initialize or increment activityScore
-    user.activityScore = (user.activityScore || 0) + amount;
-    this.users.set(userId, user);
-    
-    return user;
   }
   
   // CHAT SPACE METHODS
   async getChatSpaces(userId: number | null): Promise<ChatSpace[]> {
-    const spaces = Array.from(this.chatSpaces.values());
-    
     if (!userId) {
       // If not authenticated, return only public spaces
-      return spaces.filter(space => !space.isPrivate);
+      return db
+        .select()
+        .from(chatSpaces)
+        .where(eq(chatSpaces.isPrivate, false));
     }
     
     // Get all spaces the user is a member of
-    const memberships = Array.from(this.chatSpaceMemberships.values())
-      .filter(membership => membership.userId === userId)
-      .map(membership => membership.chatSpaceId);
+    const membershipChatSpaceIds = await db
+      .select({ chatSpaceId: chatSpaceMemberships.chatSpaceId })
+      .from(chatSpaceMemberships)
+      .where(eq(chatSpaceMemberships.userId, userId));
+    
+    // Get the IDs as an array
+    const membershipIds = membershipChatSpaceIds.map(row => row.chatSpaceId);
+    
+    if (membershipIds.length === 0) {
+      // If user isn't a member of any spaces, just return public spaces
+      return db
+        .select()
+        .from(chatSpaces)
+        .where(eq(chatSpaces.isPrivate, false));
+    }
     
     // Return public spaces and private spaces the user is a member of
-    return spaces.filter(space => !space.isPrivate || memberships.includes(space.id));
+    return db
+      .select()
+      .from(chatSpaces)
+      .where(
+        sqlQuery`${chatSpaces.isPrivate} = false OR ${chatSpaces.id} IN (${membershipIds.join(',')})`
+      );
   }
   
   async getChatSpaceById(id: number): Promise<ChatSpace | undefined> {
-    return this.chatSpaces.get(id);
+    const [chatSpace] = await db
+      .select()
+      .from(chatSpaces)
+      .where(eq(chatSpaces.id, id));
+    return chatSpace;
   }
   
   async createChatSpace(insertChatSpace: InsertChatSpace): Promise<ChatSpace> {
-    const id = this.chatSpaceIdCounter++;
     const now = new Date();
-    const chatSpace: ChatSpace = {
+    
+    // Set default values
+    const chatSpaceData = {
       ...insertChatSpace,
-      id,
       createdAt: now,
       description: insertChatSpace.description || null,
-      isPrivate: insertChatSpace.isPrivate || null
+      isPrivate: insertChatSpace.isPrivate || false
     };
-    this.chatSpaces.set(id, chatSpace);
+    
+    const [chatSpace] = await db
+      .insert(chatSpaces)
+      .values(chatSpaceData)
+      .returning();
+      
+    // Add creator as a member and admin if user ID is provided
+    if (insertChatSpace.createdById) {
+      await this.addChatSpaceMember(chatSpace.id, insertChatSpace.createdById, true);
+    }
+    
     return chatSpace;
   }
   
   async hasAccessToChatSpace(userId: number, chatSpaceId: number): Promise<boolean> {
-    const space = await this.getChatSpaceById(chatSpaceId);
+    const [space] = await db
+      .select()
+      .from(chatSpaces)
+      .where(eq(chatSpaces.id, chatSpaceId));
+      
     if (!space) {
       return false;
     }
@@ -335,31 +295,70 @@ export class MemStorage implements IStorage {
     }
     
     // Check if user is a member of the private space
-    return Array.from(this.chatSpaceMemberships.values())
-      .some(membership => 
-        membership.chatSpaceId === chatSpaceId && 
-        membership.userId === userId
+    const [membership] = await db
+      .select()
+      .from(chatSpaceMemberships)
+      .where(
+        and(
+          eq(chatSpaceMemberships.chatSpaceId, chatSpaceId),
+          eq(chatSpaceMemberships.userId, userId)
+        )
       );
+      
+    return !!membership;
   }
   
   async addChatSpaceMember(chatSpaceId: number, userId: number, isAdmin: boolean = false): Promise<ChatSpaceMembership> {
-    const id = this.chatSpaceMembershipIdCounter++;
+    // Check if membership already exists
+    const [existingMembership] = await db
+      .select()
+      .from(chatSpaceMemberships)
+      .where(
+        and(
+          eq(chatSpaceMemberships.chatSpaceId, chatSpaceId),
+          eq(chatSpaceMemberships.userId, userId)
+        )
+      );
+      
+    if (existingMembership) {
+      // Update admin status if it's changed
+      if (existingMembership.isAdmin !== isAdmin) {
+        const [updatedMembership] = await db
+          .update(chatSpaceMemberships)
+          .set({ isAdmin })
+          .where(eq(chatSpaceMemberships.id, existingMembership.id))
+          .returning();
+          
+        return updatedMembership;
+      }
+      
+      return existingMembership;
+    }
+    
+    // Create new membership
     const now = new Date();
-    const membership: ChatSpaceMembership = {
-      id,
-      chatSpaceId,
-      userId,
-      isAdmin,
-      joinedAt: now
-    };
-    this.chatSpaceMemberships.set(id, membership);
+    const [membership] = await db
+      .insert(chatSpaceMemberships)
+      .values({
+        chatSpaceId,
+        userId,
+        isAdmin,
+        joinedAt: now
+      })
+      .returning();
+      
+    // Increase activity score for joining a chat space
+    await this.updateActivityScore(userId, 2);
+      
     return membership;
   }
   
   async getChatMessages(chatSpaceId: number): Promise<(ChatMessage & { user: User })[]> {
-    const messages = Array.from(this.chatMessages.values())
-      .filter(message => message.chatSpaceId === chatSpaceId)
-      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+    const messages = await db
+      .select()
+      .from(chatMessages)
+      .where(eq(chatMessages.chatSpaceId, chatSpaceId))
+      .orderBy(chatMessages.createdAt);
     
     // Enrich with user data
     return Promise.all(messages.map(async message => {
@@ -372,15 +371,19 @@ export class MemStorage implements IStorage {
   }
   
   async createChatMessage(insertMessage: InsertChatMessage): Promise<ChatMessage> {
-    const id = this.chatMessageIdCounter++;
     const now = new Date();
-    const message: ChatMessage = {
+    
+    // Set default values
+    const messageData = {
       ...insertMessage,
-      id,
       createdAt: now,
       type: insertMessage.type || 'text'
     };
-    this.chatMessages.set(id, message);
+    
+    const [message] = await db
+      .insert(chatMessages)
+      .values(messageData)
+      .returning();
     
     // Increase activity score for user
     await this.updateActivityScore(insertMessage.userId, 1);
@@ -390,20 +393,26 @@ export class MemStorage implements IStorage {
   
   // EVENT METHODS
   async getEvents(): Promise<Event[]> {
-    return Array.from(this.events.values())
-      .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+    return db
+      .select()
+      .from(events)
+      .orderBy(events.startDate);
   }
   
   async getEventById(id: number): Promise<Event | undefined> {
-    return this.events.get(id);
+    const [event] = await db
+      .select()
+      .from(events)
+      .where(eq(events.id, id));
+    return event;
   }
   
   async createEvent(insertEvent: InsertEvent): Promise<Event> {
-    const id = this.eventIdCounter++;
     const now = new Date();
-    const event: Event = {
+    
+    // Set default values
+    const eventData = {
       ...insertEvent,
-      id,
       createdAt: now,
       description: insertEvent.description || null,
       eventType: insertEvent.eventType || null,
@@ -413,7 +422,11 @@ export class MemStorage implements IStorage {
       isVirtual: insertEvent.isVirtual || null,
       maxAttendees: insertEvent.maxAttendees || null
     };
-    this.events.set(id, event);
+    
+    const [event] = await db
+      .insert(events)
+      .values(eventData)
+      .returning();
     
     // Try to increase activity score for creator if user exists
     if (insertEvent.createdById) {
@@ -424,15 +437,32 @@ export class MemStorage implements IStorage {
   }
   
   async addEventAttendee(eventId: number, userId: number): Promise<EventAttendance> {
-    const id = this.eventAttendanceIdCounter++;
+    // Check if already attending
+    const isAttending = await this.isUserAttendingEvent(userId, eventId);
+    if (isAttending) {
+      // Find and return the existing attendance record
+      const [attendance] = await db
+        .select()
+        .from(eventAttendance)
+        .where(
+          and(
+            eq(eventAttendance.eventId, eventId),
+            eq(eventAttendance.userId, userId)
+          )
+        );
+      return attendance;
+    }
+    
+    // Create new attendance record
     const now = new Date();
-    const attendance: EventAttendance = {
-      id,
-      eventId,
-      userId,
-      registeredAt: now
-    };
-    this.eventAttendances.set(id, attendance);
+    const [attendance] = await db
+      .insert(eventAttendance)
+      .values({
+        eventId,
+        userId,
+        registeredAt: now
+      })
+      .returning();
     
     // Increase activity score for attendee
     await this.updateActivityScore(userId, 2);
@@ -441,66 +471,96 @@ export class MemStorage implements IStorage {
   }
   
   async isUserAttendingEvent(userId: number, eventId: number): Promise<boolean> {
-    return Array.from(this.eventAttendances.values())
-      .some(attendance => 
-        attendance.eventId === eventId && 
-        attendance.userId === userId
+    const [attendance] = await db
+      .select()
+      .from(eventAttendance)
+      .where(
+        and(
+          eq(eventAttendance.eventId, eventId),
+          eq(eventAttendance.userId, userId)
+        )
       );
+    
+    return !!attendance;
   }
   
   async getEventAttendees(eventId: number): Promise<User[]> {
-    const attendanceRecords = Array.from(this.eventAttendances.values())
-      .filter(attendance => attendance.eventId === eventId);
-    
-    const attendees = await Promise.all(
-      attendanceRecords.map(async attendance => {
-        const user = await this.getUser(attendance.userId);
-        if (!user) {
-          throw new Error("User not found for attendance record");
-        }
-        return user;
+    const attendances = await db
+      .select({
+        userId: eventAttendance.userId
       })
-    );
+      .from(eventAttendance)
+      .where(eq(eventAttendance.eventId, eventId));
     
-    return attendees;
+    if (attendances.length === 0) {
+      return [];
+    }
+    
+    // Get all user IDs
+    const userIds = attendances.map(a => a.userId);
+    
+    // Fetch all users at once
+    return db
+      .select()
+      .from(users)
+      .where(sqlQuery`${users.id} IN (${userIds.join(',')})`);
   }
   
   // PRODUCT METHODS
   async getProducts(): Promise<Product[]> {
-    return Array.from(this.products.values());
+    return db
+      .select()
+      .from(products);
   }
   
   async getProductById(id: number): Promise<Product | undefined> {
-    return this.products.get(id);
+    const [product] = await db
+      .select()
+      .from(products)
+      .where(eq(products.id, id));
+    return product;
   }
   
   async createProduct(insertProduct: InsertProduct): Promise<Product> {
-    const id = this.productIdCounter++;
     const now = new Date();
-    const product: Product = {
+    
+    // Set default values
+    const productData = {
       ...insertProduct,
-      id,
       createdAt: now,
       description: insertProduct.description || null,
       imageUrl: insertProduct.imageUrl || null,
       inventory: insertProduct.inventory || 0
     };
-    this.products.set(id, product);
+    
+    const [product] = await db
+      .insert(products)
+      .values(productData)
+      .returning();
+    
     return product;
   }
   
   async updateProductInventory(productId: number, amount: number): Promise<Product> {
+    // Get current product first
     const product = await this.getProductById(productId);
     if (!product) {
       throw new Error("Product not found");
     }
     
-    // Safely handle inventory which might be null
-    product.inventory = (product.inventory || 0) + amount;
-    this.products.set(productId, product);
+    // Calculate new inventory
+    const currentInventory = product.inventory || 0;
+    const newInventory = currentInventory + amount;
     
-    return product;
+    // Update product
+    const [updatedProduct] = await db
+      .update(products)
+      .set({ inventory: newInventory })
+      .where(eq(products.id, productId))
+      .returning();
+    
+    return updatedProduct;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
