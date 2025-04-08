@@ -78,11 +78,11 @@ export default function HomePage() {
               <p className="text-lg mb-8 font-light text-white">
                 An online community dedicated to supporting and connecting blended families through shared experiences.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <Button 
                   asChild
                   variant="default" 
-                  className="bg-white text-[#9e7a68] hover:bg-neutral-100 hover:text-[#7d5f50] font-medium px-6 py-3 rounded-full shadow-lg border-2 border-white transition-all duration-300 transform hover:scale-105"
+                  className="w-full sm:w-auto bg-white text-[#9e7a68] hover:bg-neutral-100 hover:text-[#7d5f50] font-medium px-8 py-3 sm:py-4 rounded-full shadow-lg border-2 border-white transition-all duration-300 transform hover:scale-105 text-base sm:text-lg"
                 >
                   <Link href={user ? "/chat" : "/auth"}>
                     {user ? "Join Community Chat" : "Join Our Community"}
@@ -91,7 +91,7 @@ export default function HomePage() {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-[#9e7a68] font-medium px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105"
+                  className="w-full sm:w-auto border-2 border-white text-white hover:bg-white hover:text-[#9e7a68] font-medium px-8 py-3 sm:py-4 rounded-full transition-all duration-300 transform hover:scale-105 text-base sm:text-lg"
                 >
                   <Link href="/subscribe">Learn More</Link>
                 </Button>
@@ -162,7 +162,7 @@ export default function HomePage() {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="bg-[#9e7a68] text-white hover:bg-[#876258] border-0 font-medium px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105"
+                  className="w-full sm:w-auto bg-[#9e7a68] text-white hover:bg-[#876258] border-0 font-medium px-6 py-3 rounded-full shadow-md transition-all duration-300 transform hover:scale-105 text-base"
                 >
                   <Link href="/contact">Contact Us</Link>
                 </Button>
@@ -302,9 +302,12 @@ export default function HomePage() {
         </section>
         
         {/* Testimonials Section */}
-        <section className="py-16 bg-primary bg-opacity-10">
+        <section className="py-16 bg-[#9e7a68] bg-opacity-10">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-12">Community Stories</h2>
+            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-6 text-[#9e7a68]">Community Stories</h2>
+            <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
+              Hear from families who have found support and connection in our community
+            </p>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {TESTIMONIALS.map((testimonial, index) => (
@@ -435,7 +438,7 @@ export default function HomePage() {
                         </FormControl>
                         <div className="space-y-1 leading-none">
                           <FormLabel>
-                            I agree to the <a href="#" className="text-primary hover:underline">Terms of Service</a> and <a href="#" className="text-primary hover:underline">Privacy Policy</a>
+                            I agree to the <a href="#" className="text-[#9e7a68] font-medium hover:underline">Terms of Service</a> and <a href="#" className="text-[#9e7a68] font-medium hover:underline">Privacy Policy</a>
                           </FormLabel>
                           <FormMessage />
                         </div>
@@ -452,7 +455,7 @@ export default function HomePage() {
                 </form>
               </Form>
               <div className="mt-4 text-center text-sm text-neutral-dark">
-                Already have an account? <Link href="/auth" className="text-primary hover:underline">Sign In</Link>
+                Already have an account? <Link href="/auth" className="text-[#9e7a68] font-medium hover:underline">Sign In</Link>
               </div>
             </div>
           </div>

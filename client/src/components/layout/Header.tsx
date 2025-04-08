@@ -92,7 +92,7 @@ export default function Header() {
               </DropdownMenu>
             </>
           ) : (
-            <Button asChild className="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-full transition-colors">
+            <Button asChild className="bg-[#9e7a68] hover:bg-[#876258] text-white px-5 py-2 rounded-full transition-colors shadow-sm">
               <Link href="/auth">Sign In</Link>
             </Button>
           )}
@@ -156,7 +156,7 @@ export default function Header() {
             ) : (
               <Button 
                 asChild 
-                className="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-full transition-colors w-full"
+                className="bg-[#9e7a68] hover:bg-[#876258] text-white px-5 py-2 rounded-full shadow-sm transition-all duration-300 w-full mt-2"
               >
                 <Link href="/auth" onClick={() => setMobileMenuOpen(false)}>Sign In</Link>
               </Button>
