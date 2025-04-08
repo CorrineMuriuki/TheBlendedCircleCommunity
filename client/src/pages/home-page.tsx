@@ -119,6 +119,40 @@ export default function HomePage() {
           </div>
         </section>
         
+        {/* About Us Section */}
+        <section className="py-16 bg-primary bg-opacity-5">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row items-center gap-12">
+              <div className="md:w-1/2">
+                <img 
+                  src="https://images.unsplash.com/photo-1629118163133-5f760cc5724d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=500&q=80" 
+                  alt="Diverse family gathering" 
+                  className="rounded-lg shadow-lg w-full h-auto" 
+                />
+              </div>
+              <div className="md:w-1/2">
+                <h2 className="text-2xl lg:text-3xl font-semibold mb-6">About The Blended Circle</h2>
+                <p className="text-lg mb-4">
+                  Founded in 2021, The Blended Circle is dedicated to supporting and connecting blended families through all of life's transitions.
+                </p>
+                <p className="mb-4">
+                  Our community was created by parents who understand the unique joys and challenges of blending families. We believe that with the right support, resources, and connections, blended families can thrive.
+                </p>
+                <p className="mb-6">
+                  Our mission is to provide a safe, supportive environment where parents, step-parents, and children in blended families can find community, share experiences, and access valuable resources designed specifically for their needs.
+                </p>
+                <Button 
+                  asChild
+                  variant="outline" 
+                  className="border border-primary text-primary hover:bg-primary hover:text-white"
+                >
+                  <Link href="/contact">Contact Us</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+        
         {/* Community Preview Section */}
         <section className="py-16 bg-neutral-lightest">
           <div className="container mx-auto px-4">
