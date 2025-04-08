@@ -65,18 +65,24 @@ export default function HomePage() {
       
       <main className="flex-grow pt-16">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-primary-dark to-primary text-white py-16 lg:py-24">
-          <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
+        <section className="bg-[#9e7a68] text-white py-16 lg:py-24 relative overflow-hidden">
+          {/* Background pattern for visual interest */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-full h-full bg-white opacity-5" 
+                 style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.2\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}></div>
+          </div>
+          
+          <div className="container mx-auto px-4 flex flex-col md:flex-row items-center relative z-10">
             <div className="md:w-1/2 mb-10 md:mb-0">
-              <h1 className="text-3xl lg:text-5xl font-semibold mb-4">Welcome to The Blended Circle</h1>
-              <p className="text-lg opacity-90 mb-8 font-light">
+              <h1 className="text-3xl lg:text-5xl font-semibold mb-4 text-white">Welcome to The Blended Circle</h1>
+              <p className="text-lg mb-8 font-light text-white">
                 An online community dedicated to supporting and connecting blended families through shared experiences.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   asChild
                   variant="default" 
-                  className="bg-white text-primary-dark hover:bg-neutral-lightest"
+                  className="bg-white text-[#9e7a68] hover:bg-neutral-100 hover:text-[#7d5f50] font-medium px-6 py-3 rounded-full shadow-lg border-2 border-white transition-all duration-300 transform hover:scale-105"
                 >
                   <Link href={user ? "/chat" : "/auth"}>
                     {user ? "Join Community Chat" : "Join Our Community"}
@@ -85,18 +91,21 @@ export default function HomePage() {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="border border-white text-white hover:bg-white hover:text-primary-dark"
+                  className="border-2 border-white text-white hover:bg-white hover:text-[#9e7a68] font-medium px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105"
                 >
                   <Link href="/subscribe">Learn More</Link>
                 </Button>
               </div>
             </div>
             <div className="md:w-1/2 flex justify-center md:justify-end">
-              <img 
-                src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=500&q=80" 
-                alt="Diverse family gathering" 
-                className="rounded-lg shadow-lg max-w-full h-auto" 
-              />
+              <div className="relative">
+                <div className="absolute -inset-0.5 bg-white rounded-lg opacity-20 blur"></div>
+                <img 
+                  src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=500&q=80" 
+                  alt="Diverse family gathering" 
+                  className="rounded-lg shadow-xl max-w-full h-auto relative" 
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -120,31 +129,40 @@ export default function HomePage() {
         </section>
         
         {/* About Us Section */}
-        <section className="py-16 bg-primary bg-opacity-5">
+        <section className="py-20 bg-gradient-to-b from-white to-neutral-50">
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row items-center gap-12">
               <div className="md:w-1/2">
-                <img 
-                  src="https://images.unsplash.com/photo-1629118163133-5f760cc5724d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=500&q=80" 
-                  alt="Diverse family gathering" 
-                  className="rounded-lg shadow-lg w-full h-auto" 
-                />
+                <div className="relative">
+                  <div className="absolute -inset-2 rounded-xl bg-[#9e7a68] opacity-10 blur-md"></div>
+                  <img 
+                    src="https://images.unsplash.com/photo-1629118163133-5f760cc5724d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=500&q=80" 
+                    alt="Diverse family gathering" 
+                    className="rounded-lg shadow-lg w-full h-auto relative" 
+                  />
+                  <div className="absolute -bottom-4 -right-4 h-24 w-24 bg-[#9e7a68] rounded-full flex items-center justify-center text-white font-semibold">
+                    <div className="text-center">
+                      <div className="text-sm">Est.</div>
+                      <div className="text-xl">2021</div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="md:w-1/2">
-                <h2 className="text-2xl lg:text-3xl font-semibold mb-6">About The Blended Circle</h2>
-                <p className="text-lg mb-4">
+                <h2 className="text-2xl lg:text-3xl font-semibold mb-6 text-[#9e7a68]">About The Blended Circle</h2>
+                <p className="text-lg mb-4 text-gray-700">
                   Founded in 2021, The Blended Circle is dedicated to supporting and connecting blended families through all of life's transitions.
                 </p>
-                <p className="mb-4">
+                <p className="mb-4 text-gray-700">
                   Our community was created by parents who understand the unique joys and challenges of blending families. We believe that with the right support, resources, and connections, blended families can thrive.
                 </p>
-                <p className="mb-6">
+                <p className="mb-6 text-gray-700">
                   Our mission is to provide a safe, supportive environment where parents, step-parents, and children in blended families can find community, share experiences, and access valuable resources designed specifically for their needs.
                 </p>
                 <Button 
                   asChild
                   variant="outline" 
-                  className="border border-primary text-primary hover:bg-primary hover:text-white"
+                  className="bg-[#9e7a68] text-white hover:bg-[#876258] border-0 font-medium px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105"
                 >
                   <Link href="/contact">Contact Us</Link>
                 </Button>
@@ -343,15 +361,22 @@ export default function HomePage() {
         </section>
         
         {/* Signup CTA */}
-        <section className="py-16 bg-primary">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-white mb-4">Ready to Join The Blended Circle?</h2>
-            <p className="text-white opacity-90 max-w-2xl mx-auto mb-8">
-              Connect with families who understand your journey and find the support you need to thrive together.
-            </p>
+        <section className="py-20 bg-[#9e7a68] relative overflow-hidden">
+          {/* Background design elements */}
+          <div className="absolute top-0 left-0 w-full h-20 bg-white opacity-5"></div>
+          <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-white opacity-10 -mb-10 -mr-10"></div>
+          <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-white opacity-10"></div>
+          
+          <div className="container mx-auto px-4 text-center relative z-10">
+            <div className="mb-12">
+              <h2 className="text-2xl lg:text-4xl font-semibold text-white mb-4">Ready to Join The Blended Circle?</h2>
+              <p className="text-white text-lg max-w-2xl mx-auto mb-8">
+                Connect with families who understand your journey and find the support you need to thrive together.
+              </p>
+            </div>
             
             {/* Sign Up Form */}
-            <div className="max-w-md mx-auto bg-white rounded-lg p-6 shadow-lg">
+            <div className="max-w-md mx-auto bg-white rounded-lg p-8 shadow-xl">
               <h3 className="text-xl font-medium mb-4">Create Your Account</h3>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -420,7 +445,7 @@ export default function HomePage() {
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-primary hover:bg-primary-dark text-white px-4 py-3 rounded-full transition-colors"
+                    className="w-full bg-[#9e7a68] hover:bg-[#876258] text-white font-medium px-6 py-3 rounded-full shadow-md transition-all duration-300 transform hover:scale-105"
                   >
                     Create Account
                   </Button>
