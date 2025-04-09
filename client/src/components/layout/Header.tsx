@@ -35,8 +35,8 @@ export default function Header() {
           <Link href="/" className="flex items-center">
             <img 
               src="/logo.webp" 
-              alt="logo.webp" 
-              className="h-8 w-auto"
+              alt="The Blended Circle Logo" 
+              className="h-10 w-auto object-contain"
             />
             <span className="text-xl font-semibold text-[#9e7a68] ml-2">
               The Blended Circle
