@@ -141,7 +141,7 @@ function MPesaPaymentForm({
               disabled={isProcessing}
               className="w-full"
             >
-              {isProcessing ? "Processing..." : `Pay ${amount.toFixed(2)} via M-PESA`}
+              {isProcessing ? "Processing..." : `Pay KES ${amount.toLocaleString()} via M-PESA`}
             </Button>
           </form>
         </Form>
@@ -269,7 +269,7 @@ export default function SubscribePage() {
                     
                     <MPesaPaymentForm 
                       planType={selectedPlan.toLowerCase()} 
-                      amount={Number(SUBSCRIPTION_PLANS[selectedPlan as keyof typeof SUBSCRIPTION_PLANS].price.replace('$', ''))}
+                      amount={Number(SUBSCRIPTION_PLANS[selectedPlan as keyof typeof SUBSCRIPTION_PLANS].price.replace('KES ', '').replace(',', ''))}
                       onSuccess={(data) => {
                         // In a real implementation, we would handle subscription completion here
                         // For now, we'll just simulate a successful subscription
@@ -324,9 +324,9 @@ export default function SubscribePage() {
                 <thead>
                   <tr className="bg-neutral-lightest">
                     <th className="p-4 text-left font-medium">Features</th>
-                    <th className="p-4 text-center font-medium">Basic<br /><span className="text-sm font-normal text-neutral">${SUBSCRIPTION_PLANS.BASIC.price.replace('$', '')}/mo</span></th>
-                    <th className="p-4 text-center font-medium">Family<br /><span className="text-sm font-normal text-neutral">${SUBSCRIPTION_PLANS.FAMILY.price.replace('$', '')}/mo</span></th>
-                    <th className="p-4 text-center font-medium">Premium<br /><span className="text-sm font-normal text-neutral">${SUBSCRIPTION_PLANS.PREMIUM.price.replace('$', '')}/mo</span></th>
+                    <th className="p-4 text-center font-medium">Basic<br /><span className="text-sm font-normal text-neutral">{SUBSCRIPTION_PLANS.BASIC.price}/mo</span></th>
+                    <th className="p-4 text-center font-medium">Family<br /><span className="text-sm font-normal text-neutral">{SUBSCRIPTION_PLANS.FAMILY.price}/mo</span></th>
+                    <th className="p-4 text-center font-medium">Premium<br /><span className="text-sm font-normal text-neutral">{SUBSCRIPTION_PLANS.PREMIUM.price}/mo</span></th>
                   </tr>
                 </thead>
                 <tbody>

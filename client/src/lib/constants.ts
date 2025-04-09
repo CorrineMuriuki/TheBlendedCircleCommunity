@@ -1,7 +1,7 @@
 export const SUBSCRIPTION_PLANS = {
   BASIC: {
     name: "Basic",
-    price: "$4.99",
+    price: "KES 500",
     priceId: import.meta.env.VITE_STRIPE_BASIC_PRICE_ID || "price_basic",
     features: [
       "Access to public chat spaces",
@@ -16,7 +16,7 @@ export const SUBSCRIPTION_PLANS = {
   },
   FAMILY: {
     name: "Family",
-    price: "$9.99",
+    price: "KES 1,000",
     priceId: import.meta.env.VITE_STRIPE_FAMILY_PRICE_ID || "price_family",
     features: [
       "All Basic features",
@@ -30,7 +30,7 @@ export const SUBSCRIPTION_PLANS = {
   },
   PREMIUM: {
     name: "Premium",
-    price: "$14.99",
+    price: "KES 1,500",
     priceId: import.meta.env.VITE_STRIPE_PREMIUM_PRICE_ID || "price_premium",
     features: [
       "All Family features",
