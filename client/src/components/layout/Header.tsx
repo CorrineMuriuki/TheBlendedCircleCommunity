@@ -32,11 +32,15 @@ export default function Header() {
     <header className={`bg-white ${isScrolled ? "shadow-md" : ""} fixed w-full top-0 z-50 transition-shadow duration-300`}>
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
-            <Home size={24} />
-          </div>
-          <Link href="/" className="text-xl font-semibold text-primary-dark">
-            The Blended Circle
+          <Link href="/" className="flex items-center">
+            <img 
+              src="/logo.svg" 
+              alt="The Blended Circle Logo" 
+              className="h-12 w-auto"
+            />
+            <span className="text-xl font-semibold text-primary-dark ml-2">
+              The Blended Circle
+            </span>
           </Link>
         </div>
         
