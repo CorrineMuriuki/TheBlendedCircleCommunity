@@ -34,7 +34,7 @@ export default function Header() {
         <div className="flex items-center space-x-2">
           <Link href="/" className="flex items-center">
             <img 
-              src="/images/tbc-logo.webp" 
+              src="/logo.webp" 
               alt="The Blended Circle Logo" 
               className="h-14 w-auto"
             />
