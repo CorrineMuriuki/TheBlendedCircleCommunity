@@ -34,7 +34,7 @@ export default function Header() {
         <div className="flex items-center space-x-2">
           <Link href="/" className="flex items-center">
             <img 
-              src="/logo.svg" 
+              src="/logo.webp" 
               alt="TBC dark@4x" 
               className="h-8 w-auto"
             />
