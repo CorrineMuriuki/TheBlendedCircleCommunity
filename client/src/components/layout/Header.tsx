@@ -35,7 +35,7 @@ export default function Header() {
           <Link href="/" className="flex items-center">
             <img 
               src="/logo.svg" 
-              alt="The Blended Circle Logo Icon" 
+              alt="TBC dark@4x" 
               className="h-8 w-auto"
             />
             <span className="text-xl font-semibold text-[#9e7a68] ml-2">
