@@ -35,7 +35,7 @@ export default function Header() {
           <Link href="/" className="flex items-center">
             <img 
               src="/logo.webp" 
-              alt="TBC dark@4x" 
+              alt="logo.webp" 
               className="h-8 w-auto"
             />
             <span className="text-xl font-semibold text-[#9e7a68] ml-2">
