@@ -27,7 +27,7 @@ export function MessageBubble({
       isCurrentUser && "flex-row-reverse"
     )}>
       <Avatar className={cn(
-        "w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-medium",
+        "w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center font-medium",
         isCurrentUser ? "bg-primary text-white" : "bg-primary-light text-primary-dark"
       )}>
         <AvatarFallback>
