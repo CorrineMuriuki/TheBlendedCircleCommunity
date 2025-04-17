@@ -15,36 +15,36 @@ import { Loader2 } from "lucide-react";
 export default function LiveEventsPage() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("upcoming");
-  
+
   // Fetch live events - filter for "live" event type
   const { data: allEvents = [], isLoading } = useQuery({
     queryKey: ["/api/events"],
     refetchOnWindowFocus: false,
   });
-  
+
   // Filter and sort events
   const events = allEvents.filter((event: any) => event.eventType === "live");
-  
+
   // Split events into upcoming and past
   const now = new Date();
   const upcomingEvents = events.filter((event: any) => new Date(event.startDate) > now)
     .sort((a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-  
+
   const pastEvents = events.filter((event: any) => new Date(event.startDate) <= now)
     .sort((a: any, b: any) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
-  
+
   // Scroll to top on initial render
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
+
   // Determine if user has access based on subscription tier
   const hasAccess = user && (user.subscriptionTier === 'family' || user.subscriptionTier === 'premium');
-  
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      
+
       <main className="flex-grow pt-16">
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-primary-dark to-primary text-white py-12">
@@ -53,7 +53,7 @@ export default function LiveEventsPage() {
             <p className="text-lg opacity-90 mb-8">
               Join our interactive live sessions with experts, coaches, and fellow members of the blended family community.
             </p>
-            
+
             {!user ? (
               <Button asChild className="bg-white text-primary-dark hover:bg-neutral-lightest">
                 <Link href="/auth">Sign In to Join Live Events</Link>
@@ -65,7 +65,7 @@ export default function LiveEventsPage() {
             ) : null}
           </div>
         </section>
-        
+
         {/* Event Tabs Section */}
         <section className="py-12 bg-neutral-lightest">
           <div className="container mx-auto px-4 max-w-5xl">
@@ -74,8 +74,10 @@ export default function LiveEventsPage() {
                 <TabsList>
                   <TabsTrigger value="upcoming">Upcoming Live Events</TabsTrigger>
                   <TabsTrigger value="past">Past Recordings</TabsTrigger>
+                  <TabsTrigger value="podcasts">Podcasts</TabsTrigger>
+                  <TabsTrigger value="reels">Short Videos</TabsTrigger>
                 </TabsList>
-                
+
                 {user && hasAccess && (
                   <div className="mt-4 sm:mt-0">
                     <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
@@ -84,7 +86,7 @@ export default function LiveEventsPage() {
                   </div>
                 )}
               </div>
-              
+
               {isLoading ? (
                 <div className="flex justify-center items-center py-12">
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -118,7 +120,7 @@ export default function LiveEventsPage() {
                                     <span>{event.attendeeCount || 0} attending</span>
                                   </div>
                                 </div>
-                                
+
                                 <div className="mt-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
                                   <div className="flex items-center">
                                     <Video className="text-primary mr-2" />
@@ -126,7 +128,7 @@ export default function LiveEventsPage() {
                                       {event.isVirtual ? event.location : "In-person event"}
                                     </span>
                                   </div>
-                                  
+
                                   {!user ? (
                                     <Button asChild variant="default">
                                       <Link href="/auth">Sign In to RSVP</Link>
@@ -159,7 +161,7 @@ export default function LiveEventsPage() {
                       </Card>
                     )}
                   </TabsContent>
-                  
+
                   <TabsContent value="past">
                     {pastEvents.length > 0 ? (
                       <div className="space-y-6">
@@ -185,7 +187,7 @@ export default function LiveEventsPage() {
                                 </div>
                                 <h3 className="text-xl font-medium mb-2">{event.title}</h3>
                                 <p className="text-neutral-dark mb-4">{event.description}</p>
-                                
+
                                 {!user ? (
                                   <div className="mt-4 flex items-center text-sm bg-neutral-100 p-3 rounded-md">
                                     <AlertTriangle className="text-amber-500 mr-2 h-4 w-4" />
@@ -219,12 +221,20 @@ export default function LiveEventsPage() {
                       </Card>
                     )}
                   </TabsContent>
+                  <TabsContent value="podcasts">
+                    {/* Add podcast content here */}
+                    <p>Podcast content will go here</p>
+                  </TabsContent>
+                  <TabsContent value="reels">
+                    {/* Add short video content here */}
+                    <p>Short video content will go here</p>
+                  </TabsContent>
                 </>
               )}
             </Tabs>
           </div>
         </section>
-        
+
         {/* Premium Access Info Section */}
         {(!user || !hasAccess) && (
           <section className="py-12 bg-white">
@@ -237,20 +247,20 @@ export default function LiveEventsPage() {
                     <h3 className="font-medium text-lg mb-2">Live Interactive Sessions</h3>
                     <p className="text-neutral-dark">Participate in Q&A, polls, and discussions during our expert-led sessions.</p>
                   </div>
-                  
+
                   <div>
                     <BookOpen className="h-12 w-12 text-primary mx-auto mb-2" />
                     <h3 className="font-medium text-lg mb-2">Access Recordings</h3>
                     <p className="text-neutral-dark">Watch event recordings anytime. Never miss valuable content.</p>
                   </div>
-                  
+
                   <div>
                     <Users className="h-12 w-12 text-primary mx-auto mb-2" />
                     <h3 className="font-medium text-lg mb-2">Expert Speakers</h3>
                     <p className="text-neutral-dark">Learn from family therapists, lawyers, and successful blended parents.</p>
                   </div>
                 </div>
-                
+
                 <div className="mt-8 text-center">
                   <Button asChild size="lg" className="rounded-full">
                     <Link href={user ? "/subscribe" : "/auth"}>
@@ -263,7 +273,7 @@ export default function LiveEventsPage() {
           </section>
         )}
       </main>
-      
+
       <Footer />
     </div>
   );
