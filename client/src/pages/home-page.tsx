@@ -101,8 +101,8 @@ export default function HomePage() {
               <div className="relative">
                 <div className="absolute -inset-0.5 bg-white rounded-lg opacity-20 blur"></div>
                 <img 
-                  src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=500&q=80" 
-                  alt="Diverse family gathering" 
+                  src="/images/tbc-logo.webp" 
+                  alt="The Blended Circle Logo" 
                   className="rounded-lg shadow-xl max-w-full h-auto relative" 
                 />
               </div>
@@ -139,8 +139,8 @@ export default function HomePage() {
                 <div className="relative">
                   <div className="absolute -inset-2 rounded-xl bg-[#9e7a68] opacity-10 blur-md"></div>
                   <img 
-                    src="https://images.unsplash.com/photo-1629118163133-5f760cc5724d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=500&q=80" 
-                    alt="Diverse family gathering" 
+                    src="/logo.webp" 
+                    alt="The Blended Circle" 
                     className="rounded-lg shadow-lg w-full h-auto relative" 
                   />
                   <div className="absolute -bottom-4 -right-4 h-24 w-24 bg-[#9e7a68] rounded-full flex items-center justify-center text-white font-semibold">
