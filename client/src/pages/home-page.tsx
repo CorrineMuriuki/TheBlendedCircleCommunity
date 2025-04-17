@@ -76,36 +76,8 @@ export default function HomePage() {
             <div className="md:w-1/2 mb-10 md:mb-0">
               <h1 className="text-3xl lg:text-5xl font-semibold mb-4 text-white">Welcome to the Blended Circle</h1>
               <p className="text-lg mb-8 font-light text-white">
-                The Blended Circle is a bold, beautiful, and safe online space created by 'The' Fashionable Stepmum for navigating life in blended families. We know step-parenting is layered. It's love, laughter, learning — but also boundaries, healing, and grace.
+                The Blended Circle is a bold, beautiful, and safe online community created by 'The' Fashionable Stepmum for navigating life in blended families.
               </p>
-              <div className="text-lg mb-8 font-light text-white">
-                <p className="mb-4">We exist to hold space for:</p>
-                <ul className="list-none space-y-2 mb-6">
-                  <li>✔ Parents-Step-parents, Biological Moms, Co-Parents</li>
-                  <li>✔ Children- Step-children, bio-children</li>
-                  <li>✔ Women Loving Partners with Children</li>
-                  <li>✔ Bonus Families eco-system</li>
-                </ul>
-                <h3 className="text-xl font-medium mb-3">Our Why</h3>
-                <p className="mb-4">Being part of a blended family isn't about fitting into a mold —Because every family's story matters. Support, Strength, Stability</p>
-                <p className="mb-4">Here, we embrace:</p>
-                <ul className="list-none space-y-2 mb-6">
-                  <li>→ Family as chosen and built</li>
-                  <li>→ Conversations that heal</li>
-                  <li>→ Style that empowers</li>
-                  <li>→ Fashion as self-expression</li>
-                </ul>
-                <p className="mb-6">We're not here to be perfect — we're here to be authentic, radiant, and resilient.</p>
-                <h3 className="text-xl font-medium mb-3">What You'll Find Inside</h3>
-                <p className="mb-4">✨ Blended Life Resources which are Your go-to guides on:</p>
-                <ul className="list-none space-y-2">
-                  <li>Co-parenting with confidence</li>
-                  <li>Navigating boundaries with grace</li>
-                  <li>Blended family wellness</li>
-                  <li>Mental health for blended families</li>
-                  <li>Fashion & lifestyle hacks for busy step parents</li>
-                </ul>
-              </div>
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <Button 
                   asChild
