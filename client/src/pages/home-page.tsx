@@ -131,6 +131,9 @@ export default function HomePage() {
           </div>
         </section>
         
+        {/* Community Preview Section */}
+        <section className="py-16 md:py-20 bg-neutral-50">
+
         {/* About Us Section */}
         <section className="py-20 bg-gradient-to-b from-white to-neutral-50">
           <div className="container mx-auto px-4">
@@ -173,9 +176,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-        
-        {/* Community Preview Section */}
-        <section className="py-16 md:py-20 bg-neutral-50">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4 text-[#9e7a68]">Experience Our Community</h2>
             <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
