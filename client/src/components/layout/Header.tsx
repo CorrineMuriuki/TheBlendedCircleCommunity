@@ -39,7 +39,7 @@ export default function Header() {
             </span>
           </Link>
         </div>
-        
+
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-6 items-center">
           {NAVIGATION_ITEMS.map((item) => (
@@ -51,7 +51,7 @@ export default function Header() {
               {item.name}
             </Link>
           ))}
-          
+
           {user ? (
             <>
               <Link href="/chat" className={`font-medium ${location === '/chat' ? 'text-primary' : 'text-neutral-dark hover:text-primary'} transition-colors`}>
@@ -97,7 +97,7 @@ export default function Header() {
             </Button>
           )}
         </div>
-        
+
         {/* Mobile Navigation Toggle */}
         <button 
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
@@ -106,7 +106,7 @@ export default function Header() {
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </nav>
-      
+
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-neutral-light">
@@ -121,7 +121,7 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
-            
+
             {user && (
               <Link 
                 href="/chat"
@@ -131,7 +131,7 @@ export default function Header() {
                 Chat
               </Link>
             )}
-            
+
             {user ? (
               <>
                 <Link 
