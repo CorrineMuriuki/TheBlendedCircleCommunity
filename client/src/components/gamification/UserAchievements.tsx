@@ -9,6 +9,29 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip";
 import { formatDate } from "@/lib/utils";
+import { achievementTypeEnum } from "@shared/schema";
+
+// Helper function to get achievement requirement text based on type
+const getAchievementRequirementText = (type: string, requiredValue: number): string => {
+  switch (type) {
+    case 'post_count':
+      return `Make ${requiredValue} posts`;
+    case 'event_attendance':
+      return `Attend ${requiredValue} events`;
+    case 'profile_completion':
+      return `Complete ${requiredValue}% of your profile`;
+    case 'referrals':
+      return `Refer ${requiredValue} new members`;
+    case 'comment_count':
+      return `Add ${requiredValue} comments`;
+    case 'longevity':
+      return `Be a member for ${requiredValue} days`;
+    case 'contribution':
+      return `Contribute ${requiredValue} times to the community`;
+    default:
+      return `Complete ${requiredValue} actions`;
+  }
+};
 
 export function UserAchievements() {
   const { 
@@ -116,11 +139,7 @@ export function UserAchievements() {
                       <p className="text-sm">{achievement.description}</p>
                       {!isUnlocked && (
                         <p className="text-xs text-muted-foreground italic">
-                          {achievement.type === 'post_count' && `Make ${achievement.requiredValue} posts`}
-                          {achievement.type === 'event_attendance' && `Attend ${achievement.requiredValue} events`}
-                          {achievement.type === 'profile_completion' && `Complete ${achievement.requiredValue}% of your profile`}
-                          {achievement.type === 'referral' && `Refer ${achievement.requiredValue} new members`}
-                          {achievement.type === 'subscription_duration' && `Maintain a subscription for ${achievement.requiredValue} days`}
+                          {getAchievementRequirementText(achievement.type, achievement.requiredValue)}
                         </p>
                       )}
                       {isUnlocked && (
