@@ -17,6 +17,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
+import Image1 from './images/Image1.jpg';
+import Image2 from './images/Image2.jpg';
 
 const signupSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -68,15 +70,15 @@ export default function HomePage() {
         <section className="bg-gradient-to-r from-primary-dark to-primary text-white py-16 lg:py-24">
           <div className="container mx-auto px-4 flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 mb-10 md:mb-0">
-              <h1 className="text-3xl lg:text-5xl font-semibold mb-4">Welcome to The Blended Circle</h1>
-              <p className="text-lg opacity-90 mb-8 font-light">
+              <h1 className="text-[#000000] text-3xl lg:text-5xl font-semibold mb-4">Welcome to The Blended Circle</h1>
+              <p className="text-[#000000] text-lg opacity-90 mb-8 font-light">
                 An online community dedicated to supporting and connecting blended families through shared experiences.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   asChild
                   variant="default" 
-                  className="bg-white text-primary-dark hover:bg-neutral-lightest"
+                  className="bg-white text-[#000000] hover:bg-neutral-lightest"
                 >
                   <Link href={user ? "/chat" : "/auth"}>
                     {user ? "Join Community Chat" : "Join Our Community"}
@@ -85,7 +87,7 @@ export default function HomePage() {
                 <Button 
                   asChild
                   variant="outline" 
-                  className="border border-white text-white hover:bg-white hover:text-primary-dark"
+                  className="border border-white hover:bg-white text-[#000000]"
                 >
                   <Link href="/subscribe">Learn More</Link>
                 </Button>
@@ -93,7 +95,7 @@ export default function HomePage() {
             </div>
             <div className="md:w-1/2 flex justify-center md:justify-end">
               <img 
-                src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=500&q=80" 
+                src={Image1}
                 alt="Diverse family gathering" 
                 className="rounded-lg shadow-lg max-w-full h-auto" 
               />
@@ -104,7 +106,7 @@ export default function HomePage() {
         {/* Features Section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-12">What Makes Our Community Special</h2>
+            <h2 className="text-[#000000] text-2xl lg:text-3xl font-semibold text-center mb-12">What Makes Our Community Special</h2>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {FEATURES.map((feature, index) => (
@@ -125,7 +127,7 @@ export default function HomePage() {
             <div className="flex flex-col md:flex-row items-center gap-12">
               <div className="md:w-1/2">
                 <img 
-                  src="https://images.unsplash.com/photo-1629118163133-5f760cc5724d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=500&q=80" 
+                  src={Image2}
                   alt="Diverse family gathering" 
                   className="rounded-lg shadow-lg w-full h-auto" 
                 />

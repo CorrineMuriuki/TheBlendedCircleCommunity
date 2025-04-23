@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import logo from "../images/logo.jpg";
 
 const newsletterSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -49,7 +50,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
-                <Home size={24} />
+                <img src={logo} alt="Logo" className="w-full h-full object-cover" />
               </div>
               <span className="text-xl font-semibold">The Blended Circle</span>
             </div>

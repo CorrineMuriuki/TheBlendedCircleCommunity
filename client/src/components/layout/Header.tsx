@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import logo from "../images/logo.jpg";
 
 export default function Header() {
   const { user, logoutMutation } = useAuth();
@@ -33,7 +34,7 @@ export default function Header() {
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
-            <Home size={24} />
+            <img src={logo} alt="Logo" className="w-full h-full object-cover" />
           </div>
           <Link href="/" className="text-xl font-semibold text-primary-dark">
             The Blended Circle
