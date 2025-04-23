@@ -101,7 +101,7 @@ export default function LiveEventsPage() {
                             <div className="flex flex-col md:flex-row">
                               <div className="md:w-1/3 h-48 md:h-auto relative">
                                 <img 
-                                  src={event.imageUrl} 
+                                  src="/images/stepmum-podcast.jpg" 
                                   alt={event.title} 
                                   className="w-full h-full object-cover" 
                                 />
