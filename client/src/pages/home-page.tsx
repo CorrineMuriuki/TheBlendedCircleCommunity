@@ -65,22 +65,22 @@ export default function HomePage() {
       
       <main className="flex-grow pt-16">
         {/* Hero Section */}
-        <section className="text-white py-16 lg:py-24 relative overflow-hidden">
-          {/* Main background image */}
+        <section className="bg-[#9e7a68] text-white py-16 lg:py-24 relative overflow-hidden">
+          {/* Floating background images */}
           <div className="absolute inset-0">
             <img 
               src="/attached_assets/DSC08955.jpg"
               alt="Background"
-              className="w-full h-full object-cover"
+              className="absolute w-64 h-64 object-cover rounded-2xl opacity-20 blur-sm -top-10 -right-10 rotate-12 animate-float-slow"
             />
-            <div className="absolute inset-0 bg-[#9e7a68]/80 backdrop-blur-sm"></div>
+            <img 
+              src="/attached_assets/DSC08955.jpg"
+              alt="Background"
+              className="absolute w-48 h-48 object-cover rounded-2xl opacity-15 blur-sm -bottom-8 -left-8 -rotate-12 animate-float"
+            />
           </div>
-          
-          {/* Decorative floating elements */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 animate-float-slow"></div>
-            <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2 animate-float"></div>
-          </div>
+          {/* Overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#9e7a68] via-[#9e7a68]/95 to-[#9e7a68]/90"></div>
           
           <div className="container mx-auto px-4 flex flex-col md:flex-row items-center relative z-10">
             <div className="md:w-1/2 mb-10 md:mb-0">
