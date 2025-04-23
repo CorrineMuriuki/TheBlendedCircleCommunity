@@ -115,9 +115,9 @@ export default function ContactPage() {
                       <div>
                         <h3 className="font-medium">Address</h3>
                         <p className="text-neutral-dark">
-                          123 Blended Family Lane<br />
-                          Supportville, CA 94105<br />
-                          United States
+                          Gate 10, Karuna Close<br />
+                          Westlands, PQRW+GQ<br />
+                          Nairobi, Kenya
                         </p>
                       </div>
                     </CardContent>
