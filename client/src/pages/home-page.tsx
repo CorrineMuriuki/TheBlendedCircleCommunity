@@ -66,11 +66,21 @@ export default function HomePage() {
       <main className="flex-grow pt-16">
         {/* Hero Section */}
         <section className="bg-[#9e7a68] text-white py-16 lg:py-24 relative overflow-hidden">
-          {/* Background pattern for visual interest */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-0 w-full h-full bg-white opacity-5" 
-                 style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.2\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}></div>
+          {/* Floating background images */}
+          <div className="absolute inset-0">
+            <img 
+              src="/attached_assets/DSC08955.jpg"
+              alt="Background"
+              className="absolute w-64 h-64 object-cover rounded-2xl opacity-20 blur-sm -top-10 -right-10 rotate-12 animate-float-slow"
+            />
+            <img 
+              src="/attached_assets/DSC08955.jpg"
+              alt="Background"
+              className="absolute w-48 h-48 object-cover rounded-2xl opacity-15 blur-sm -bottom-8 -left-8 -rotate-12 animate-float"
+            />
           </div>
+          {/* Overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#9e7a68] via-[#9e7a68]/95 to-[#9e7a68]/90"></div>
           
           <div className="container mx-auto px-4 flex flex-col md:flex-row items-center relative z-10">
             <div className="md:w-1/2 mb-10 md:mb-0">
