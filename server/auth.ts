@@ -89,6 +89,14 @@ export function setupAuth(app: Express) {
         password: hashedPassword,
       });
 
+      // Send welcome email
+      try {
+        await sendWelcomeEmail(user.displayName || user.username, user.email);
+      } catch (emailError) {
+        console.error('Failed to send welcome email:', emailError);
+        // Continue with registration even if email fails
+      }
+
       req.login(user, (err) => {
         if (err) return next(err);
         res.status(201).json(user);
