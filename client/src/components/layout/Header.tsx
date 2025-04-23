@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import logo from "../images/logo.jpg";
+
 export default function Header() {
   const { user, logoutMutation } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -34,7 +34,7 @@ export default function Header() {
         <div className="flex items-center space-x-2">
           <Link href="/" className="flex items-center">
              <img src={logo} alt="Logo" className="w-full h-full object-cover" />
-            />
+            
             <span className="text-xl font-semibold text-[#9e7a68] ml-2">
               The Blended Circle
             </span>
