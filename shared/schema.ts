@@ -11,6 +11,17 @@ export const messageTypeEnum = pgEnum('message_type', ['text', 'image', 'file', 
 // Enum for event types
 export const eventTypeEnum = pgEnum('event_type', ['workshop', 'social', 'live']);
 
+// Enum for achievement types
+export const achievementTypeEnum = pgEnum('achievement_type', [
+  'post_count', 
+  'event_attendance', 
+  'profile_completion', 
+  'referrals',
+  'comment_count',
+  'longevity',
+  'contribution'
+]);
+
 // Users table
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -92,6 +103,47 @@ export const products = pgTable("products", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Achievements/Badges table
+export const achievements = pgTable("achievements", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  iconUrl: text("icon_url").notNull(),
+  type: achievementTypeEnum("type").notNull(),
+  requiredValue: integer("required_value").notNull(), // Value needed to earn this achievement
+  pointsAwarded: integer("points_awarded").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// User achievements (earned badges)
+export const userAchievements = pgTable("user_achievements", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  achievementId: integer("achievement_id").notNull().references(() => achievements.id),
+  earnedAt: timestamp("earned_at").defaultNow().notNull(),
+});
+
+// User level system
+export const levels = pgTable("levels", {
+  id: serial("id").primaryKey(),
+  level: integer("level").notNull().unique(),
+  name: text("name").notNull(),
+  description: text("description"),
+  pointsRequired: integer("points_required").notNull(),
+  iconUrl: text("icon_url"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// User activity log for tracking points-earning activities
+export const activityLogs = pgTable("activity_logs", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  activityType: text("activity_type").notNull(), // e.g., 'post_created', 'event_attended', etc.
+  pointsEarned: integer("points_earned").notNull(),
+  description: text("description").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
@@ -138,6 +190,36 @@ export const insertProductSchema = createInsertSchema(products).pick({
   inventory: true,
 });
 
+// Gamification insert schemas
+export const insertAchievementSchema = createInsertSchema(achievements).pick({
+  name: true,
+  description: true,
+  iconUrl: true,
+  type: true,
+  requiredValue: true,
+  pointsAwarded: true,
+});
+
+export const insertUserAchievementSchema = createInsertSchema(userAchievements).pick({
+  userId: true,
+  achievementId: true,
+});
+
+export const insertLevelSchema = createInsertSchema(levels).pick({
+  level: true,
+  name: true,
+  description: true,
+  pointsRequired: true,
+  iconUrl: true,
+});
+
+export const insertActivityLogSchema = createInsertSchema(activityLogs).pick({
+  userId: true,
+  activityType: true,
+  pointsEarned: true,
+  description: true,
+});
+
 // Types for insert and select
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -153,6 +235,18 @@ export type Event = typeof events.$inferSelect;
 
 export type InsertProduct = z.infer<typeof insertProductSchema>;
 export type Product = typeof products.$inferSelect;
+
+export type InsertAchievement = z.infer<typeof insertAchievementSchema>;
+export type Achievement = typeof achievements.$inferSelect;
+
+export type InsertUserAchievement = z.infer<typeof insertUserAchievementSchema>;
+export type UserAchievement = typeof userAchievements.$inferSelect;
+
+export type InsertLevel = z.infer<typeof insertLevelSchema>;
+export type Level = typeof levels.$inferSelect;
+
+export type InsertActivityLog = z.infer<typeof insertActivityLogSchema>;
+export type ActivityLog = typeof activityLogs.$inferSelect;
 
 export type ChatSpaceMembership = typeof chatSpaceMemberships.$inferSelect;
 export type EventAttendance = typeof eventAttendance.$inferSelect;

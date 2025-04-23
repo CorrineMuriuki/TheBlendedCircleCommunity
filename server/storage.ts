@@ -1,4 +1,16 @@
-import { users, type User, type InsertUser, chatSpaces, type ChatSpace, type InsertChatSpace, chatMessages, type ChatMessage, type InsertChatMessage, chatSpaceMemberships, type ChatSpaceMembership, events, type Event, type InsertEvent, eventAttendance, type EventAttendance, products, type Product, type InsertProduct } from "@shared/schema";
+import { 
+  users, type User, type InsertUser, 
+  chatSpaces, type ChatSpace, type InsertChatSpace, 
+  chatMessages, type ChatMessage, type InsertChatMessage, 
+  chatSpaceMemberships, type ChatSpaceMembership, 
+  events, type Event, type InsertEvent, 
+  eventAttendance, type EventAttendance, 
+  products, type Product, type InsertProduct,
+  achievements, type Achievement, type InsertAchievement,
+  userAchievements, type UserAchievement, type InsertUserAchievement,
+  levels, type Level, type InsertLevel,
+  activityLogs, type ActivityLog, type InsertActivityLog
+} from "@shared/schema";
 import session from "express-session";
 import { db } from "./db";
 import { eq, and, desc, sql as sqlQuery } from "drizzle-orm";
@@ -39,6 +51,31 @@ export interface IStorage {
   getProductById(id: number): Promise<Product | undefined>;
   createProduct(product: InsertProduct): Promise<Product>;
   updateProductInventory(productId: number, amount: number): Promise<Product>;
+  
+  // Gamification System
+  
+  // Achievements
+  getAchievements(): Promise<Achievement[]>;
+  getAchievementById(id: number): Promise<Achievement | undefined>;
+  createAchievement(achievement: InsertAchievement): Promise<Achievement>;
+  
+  // User Achievements
+  getUserAchievements(userId: number): Promise<(UserAchievement & { achievement: Achievement })[]>;
+  awardAchievementToUser(userId: number, achievementId: number): Promise<UserAchievement | undefined>;
+  checkAndAwardAchievements(userId: number): Promise<UserAchievement[]>;
+  
+  // Levels
+  getLevels(): Promise<Level[]>;
+  getLevelById(id: number): Promise<Level | undefined>;
+  getLevelByPoints(points: number): Promise<Level | undefined>;
+  createLevel(level: InsertLevel): Promise<Level>;
+  
+  // Activity Logs
+  addActivityLog(log: InsertActivityLog): Promise<ActivityLog>;
+  getUserActivityLogs(userId: number, limit?: number): Promise<ActivityLog[]>;
+  
+  // Leaderboard
+  getLeaderboard(limit?: number): Promise<User[]>;
   
   // Sessions
   sessionStore: session.Store;
@@ -560,6 +597,249 @@ export class DatabaseStorage implements IStorage {
       .returning();
     
     return updatedProduct;
+  }
+
+  // GAMIFICATION SYSTEM METHODS
+
+  // ACHIEVEMENTS
+  async getAchievements(): Promise<Achievement[]> {
+    return db
+      .select()
+      .from(achievements);
+  }
+
+  async getAchievementById(id: number): Promise<Achievement | undefined> {
+    const [achievement] = await db
+      .select()
+      .from(achievements)
+      .where(eq(achievements.id, id));
+    return achievement;
+  }
+
+  async createAchievement(insertAchievement: InsertAchievement): Promise<Achievement> {
+    const [achievement] = await db
+      .insert(achievements)
+      .values(insertAchievement)
+      .returning();
+    return achievement;
+  }
+
+  // USER ACHIEVEMENTS
+  async getUserAchievements(userId: number): Promise<(UserAchievement & { achievement: Achievement })[]> {
+    const userAchievementsData = await db
+      .select()
+      .from(userAchievements)
+      .where(eq(userAchievements.userId, userId));
+    
+    // Enrich with achievement data
+    return Promise.all(userAchievementsData.map(async userAchievement => {
+      const achievement = await this.getAchievementById(userAchievement.achievementId);
+      if (!achievement) {
+        throw new Error("Achievement not found");
+      }
+      return { ...userAchievement, achievement };
+    }));
+  }
+
+  async awardAchievementToUser(userId: number, achievementId: number): Promise<UserAchievement | undefined> {
+    try {
+      // Check if already awarded
+      const [existingAward] = await db
+        .select()
+        .from(userAchievements)
+        .where(
+          and(
+            eq(userAchievements.userId, userId),
+            eq(userAchievements.achievementId, achievementId)
+          )
+        );
+      
+      if (existingAward) {
+        return existingAward; // Already awarded
+      }
+      
+      // Get the achievement to award points
+      const achievement = await this.getAchievementById(achievementId);
+      if (!achievement) {
+        console.error(`Achievement not found: ${achievementId}`);
+        return undefined;
+      }
+      
+      // Award the achievement
+      const now = new Date();
+      const [userAchievement] = await db
+        .insert(userAchievements)
+        .values({
+          userId,
+          achievementId,
+          earnedAt: now
+        })
+        .returning();
+      
+      // Award points
+      await this.updateActivityScore(userId, achievement.pointsAwarded);
+      
+      // Create activity log
+      await this.addActivityLog({
+        userId,
+        activityType: 'achievement_earned',
+        pointsEarned: achievement.pointsAwarded,
+        description: `Earned achievement: ${achievement.name}`
+      });
+      
+      return userAchievement;
+    } catch (error) {
+      console.error(`Error awarding achievement: ${error}`);
+      return undefined;
+    }
+  }
+
+  async checkAndAwardAchievements(userId: number): Promise<UserAchievement[]> {
+    try {
+      const user = await this.getUser(userId);
+      if (!user) {
+        console.warn(`User not found for checking achievements: ${userId}`);
+        return [];
+      }
+      
+      const allAchievements = await this.getAchievements();
+      const userAchievements = await this.getUserAchievements(userId);
+      const userAchievementIds = userAchievements.map(ua => ua.achievementId);
+      
+      // Check post count achievements
+      const postCountAchievements = allAchievements.filter(a => 
+        a.type === 'post_count' && !userAchievementIds.includes(a.id)
+      );
+      
+      // Get user's post count
+      const userPosts = await db
+        .select({ count: sqlQuery<number>`count(*)` })
+        .from(chatMessages)
+        .where(eq(chatMessages.userId, userId));
+      
+      const postCount = userPosts[0]?.count || 0;
+      
+      // Check event attendance achievements
+      const eventAttendanceAchievements = allAchievements.filter(a => 
+        a.type === 'event_attendance' && !userAchievementIds.includes(a.id)
+      );
+      
+      // Get user's event attendance count
+      const userAttendances = await db
+        .select({ count: sqlQuery<number>`count(*)` })
+        .from(eventAttendance)
+        .where(eq(eventAttendance.userId, userId));
+      
+      const attendanceCount = userAttendances[0]?.count || 0;
+      
+      // Check profile completion
+      const profileCompleteAchievements = allAchievements.filter(a => 
+        a.type === 'profile_completion' && !userAchievementIds.includes(a.id)
+      );
+      
+      let profileCompletion = 0;
+      if (user.displayName) profileCompletion += 20;
+      if (user.email) profileCompletion += 20;
+      if (user.avatarUrl) profileCompletion += 20;
+      if (user.bio) profileCompletion += 20;
+      if (user.newsletterSubscription) profileCompletion += 20;
+      
+      // Create arrays of achievements to award
+      const achievementsToAward: Achievement[] = [
+        ...postCountAchievements.filter(a => postCount >= a.requiredValue),
+        ...eventAttendanceAchievements.filter(a => attendanceCount >= a.requiredValue),
+        ...profileCompleteAchievements.filter(a => profileCompletion >= a.requiredValue)
+      ];
+      
+      // Award all eligible achievements
+      const newlyAwardedAchievements: UserAchievement[] = [];
+      
+      for (const achievement of achievementsToAward) {
+        const awarded = await this.awardAchievementToUser(userId, achievement.id);
+        if (awarded) {
+          newlyAwardedAchievements.push(awarded);
+        }
+      }
+      
+      return newlyAwardedAchievements;
+    } catch (error) {
+      console.error(`Error checking achievements: ${error}`);
+      return [];
+    }
+  }
+
+  // LEVELS
+  async getLevels(): Promise<Level[]> {
+    return db
+      .select()
+      .from(levels)
+      .orderBy(levels.pointsRequired);
+  }
+
+  async getLevelById(id: number): Promise<Level | undefined> {
+    const [level] = await db
+      .select()
+      .from(levels)
+      .where(eq(levels.id, id));
+    return level;
+  }
+
+  async getLevelByPoints(points: number): Promise<Level | undefined> {
+    // Get all levels
+    const allLevels = await this.getLevels();
+    
+    // Find the highest level the user qualifies for
+    const qualifyingLevels = allLevels.filter(level => points >= level.pointsRequired);
+    
+    if (qualifyingLevels.length === 0) {
+      return undefined; // User doesn't qualify for any level yet
+    }
+    
+    // Return the highest qualifying level
+    return qualifyingLevels.reduce((highestLevel, level) => 
+      level.pointsRequired > highestLevel.pointsRequired ? level : highestLevel
+    , qualifyingLevels[0]);
+  }
+
+  async createLevel(insertLevel: InsertLevel): Promise<Level> {
+    const [level] = await db
+      .insert(levels)
+      .values(insertLevel)
+      .returning();
+    return level;
+  }
+
+  // ACTIVITY LOGS
+  async addActivityLog(insertLog: InsertActivityLog): Promise<ActivityLog> {
+    const now = new Date();
+    
+    const [log] = await db
+      .insert(activityLogs)
+      .values({
+        ...insertLog,
+        createdAt: now
+      })
+      .returning();
+    
+    return log;
+  }
+
+  async getUserActivityLogs(userId: number, limit: number = 20): Promise<ActivityLog[]> {
+    return db
+      .select()
+      .from(activityLogs)
+      .where(eq(activityLogs.userId, userId))
+      .orderBy(desc(activityLogs.createdAt))
+      .limit(limit);
+  }
+
+  // LEADERBOARD
+  async getLeaderboard(limit: number = 10): Promise<User[]> {
+    return db
+      .select()
+      .from(users)
+      .orderBy(desc(users.activityScore))
+      .limit(limit);
   }
 }
 
