@@ -48,9 +48,11 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
-                <Home size={24} />
-              </div>
+              <img 
+                src="/attached_assets/TBC dark@4x.webp" 
+                alt="The Blended Circle Logo" 
+                className="h-10 w-auto object-contain brightness-0 invert"
+              />
               <span className="text-xl font-semibold">The Blended Circle</span>
             </div>
             <p className="text-[#e5e0db] mb-4">
