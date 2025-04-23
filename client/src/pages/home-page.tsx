@@ -111,8 +111,8 @@ export default function HomePage() {
               <div className="relative">
                 <div className="absolute -inset-0.5 bg-white rounded-lg opacity-20 blur"></div>
                 <img 
-                  src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=500&q=80" 
-                  alt="Diverse family gathering" 
+                  src="/attached_assets/Image1.jpg.jpg" 
+                  alt="The Blended Circle Community" 
                   className="rounded-lg shadow-xl max-w-full h-auto relative" 
                 />
               </div>
