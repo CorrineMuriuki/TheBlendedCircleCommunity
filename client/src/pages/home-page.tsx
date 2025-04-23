@@ -149,21 +149,34 @@ export default function HomePage() {
                   <div className="absolute -bottom-4 -right-4 h-24 w-24 bg-[#9e7a68] rounded-full flex items-center justify-center text-white font-semibold">
                     <div className="text-center">
                       <div className="text-sm">Est.</div>
-                      <div className="text-xl">2021</div>
+                      <div className="text-xl">2025</div>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="md:w-1/2">
-                <h2 className="text-2xl lg:text-3xl font-semibold mb-6 text-[#9e7a68]">About The Blended Circle</h2>
+                <h2 className="text-2xl lg:text-3xl font-semibold mb-6 text-[#9e7a68]">Who We Are</h2>
                 <p className="text-lg mb-4 text-gray-700">
-                  Founded in 2021, The Blended Circle is dedicated to supporting and connecting blended families through all of life's transitions.
+                  The Blended Circle is a bold, beautiful, and safe online space created by 'The' Fashionable Stepmum for navigating life in blended families. We know step-parenting is layered. It's love, laughter, learning — but also boundaries, healing, and grace.
                 </p>
                 <p className="mb-4 text-gray-700">
-                  Our community was created by parents who understand the unique joys and challenges of blending families. We believe that with the right support, resources, and connections, blended families can thrive.
+                  We exist to hold space for:<br/>
+                  ✔ Parents-Step-parents, Biological Moms, Co-Parents<br/>
+                  ✔ Children- Step-children, bio-children<br/>
+                  ✔ Women Loving Partners with Children<br/>
+                  ✔ Bonus Families eco-system
+                </p>
+                <h3 className="text-xl font-semibold mb-3 text-[#9e7a68]">Our Why</h3>
+                <p className="mb-4 text-gray-700">
+                  Being part of a blended family isn't about fitting into a mold —Because every family's story matters. Support, Strength, Stability
                 </p>
                 <p className="mb-6 text-gray-700">
-                  Our mission is to provide a safe, supportive environment where parents, step-parents, and children in blended families can find community, share experiences, and access valuable resources designed specifically for their needs.
+                  Here, we embrace:<br/>
+                  → Family as chosen and built<br/>
+                  → Conversations that heal<br/>
+                  → Style that empowers<br/>
+                  → Fashion as self-expression<br/><br/>
+                  We're not here to be perfect — we're here to be authentic, radiant, and resilient.
                 </p>
                 <Button 
                   asChild
