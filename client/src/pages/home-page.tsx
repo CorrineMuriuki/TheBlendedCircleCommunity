@@ -76,7 +76,7 @@ export default function HomePage() {
             <div className="md:w-1/2 mb-10 md:mb-0">
               <h1 className="text-3xl lg:text-5xl font-semibold mb-4 text-white">Welcome to the Blended Circle</h1>
               <p className="text-lg mb-8 font-light text-white">
-                The Blended Circle is a bold, beautiful, and safe online community created by 'The' Fashionable Stepmum for navigating life in blended families.
+                The Blended Circle is a bold, beautiful, and safe online community created by 'The' Fashionable Stepmum for navigating life in blended families. Because every family's story matters - Support, Strength, Stability.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <Button 
