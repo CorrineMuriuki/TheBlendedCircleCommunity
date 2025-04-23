@@ -33,7 +33,7 @@ export default function Header() {
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Link href="/" className="flex items-center">
-             <img src="/images/tbc-logo.png" alt="Logo" className="h-12 w-auto object-contain" />
+             <img src="/images/tbc-logo.webp" alt="Logo" className="h-12 w-auto object-contain" />
 
             <span className="text-xl font-semibold text-[#9e7a68] ml-2">
               The Blended Circle
