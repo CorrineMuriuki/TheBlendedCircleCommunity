@@ -19,7 +19,10 @@ export function formatDate(date: Date): string {
 }
 
 export function formatPrice(priceInCents: number): string {
-  return `KES ${new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES' }).format(priceInCents / 100)}`;
+  return new Intl.NumberFormat('en-KE', {
+    style: 'currency',
+    currency: 'KES',
+  }).format(priceInCents);
 }
 
 export function getInitials(name: string): string {
