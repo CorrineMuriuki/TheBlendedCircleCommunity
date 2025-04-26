@@ -33,7 +33,7 @@ export default function HomePage() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [, navigate] = useLocation();
-
+  
   // Setup signup form
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
@@ -44,44 +44,44 @@ export default function HomePage() {
       agreeTerms: false,
     },
   });
-
+  
   // Scroll to top on initial render
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
+  
   function onSubmit(data: SignupFormValues) {
     toast({
       title: "Redirecting to registration",
       description: "Taking you to our registration page to complete your signup",
     });
-
+    
     navigate("/auth");
   }
-
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-
+      
       <main className="flex-grow pt-16">
         {/* Hero Section */}
         <section className="bg-[#9e7a68] text-white py-16 lg:py-24 relative overflow-hidden">
           {/* Floating background images */}
           <div className="absolute inset-0">
             <img 
-              src="/images/stepmum-podcast.jpg"
+              src="/attached_assets/DSC08955.jpg"
               alt="Background"
               className="absolute w-64 h-64 object-cover rounded-2xl opacity-20 blur-sm -top-10 -right-10 rotate-12 animate-float-slow"
             />
             <img 
-              src="/images/stepmum-podcast.jpg"
+              src="/attached_assets/DSC08955.jpg"
               alt="Background"
               className="absolute w-48 h-48 object-cover rounded-2xl opacity-15 blur-sm -bottom-8 -left-8 -rotate-12 animate-float"
             />
           </div>
           {/* Overlay gradient */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#9e7a68] via-[#9e7a68]/95 to-[#9e7a68]/90"></div>
-
+          
           <div className="container mx-auto px-4 flex flex-col md:flex-row items-center relative z-10">
             <div className="md:w-1/2 mb-10 md:mb-0">
               <h1 className="text-3xl lg:text-5xl font-semibold mb-4 text-white">Welcome to the Blended Circle</h1>
@@ -119,7 +119,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
+        
         {/* Features Section */}
         <section className="py-16 md:py-20 bg-white">
           <div className="container mx-auto px-4">
@@ -127,7 +127,7 @@ export default function HomePage() {
             <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
               Discover the unique benefits of joining our supportive community
             </p>
-
+            
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {FEATURES.map((feature, index) => (
                 <FeatureCard
@@ -140,7 +140,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
+        
         {/* Community Preview Section */}
         <section className="py-16 md:py-20 bg-neutral-50">
 
@@ -204,7 +204,7 @@ export default function HomePage() {
             <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
               Get a glimpse of the conversations and connections happening in The Blended Circle.
             </p>
-
+            
             <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
               {/* Community Spaces Navigation */}
               <div className="w-full lg:w-1/4 bg-white rounded-xl shadow-md p-5 md:p-6 h-min order-2 lg:order-1">
@@ -237,7 +237,7 @@ export default function HomePage() {
                   </Button>
                 </div>
               </div>
-
+              
               {/* Chat Preview */}
               <div className="w-full lg:w-3/4 bg-white rounded-xl shadow-md flex flex-col order-1 lg:order-2 mb-6 lg:mb-0">
                 {/* Chat Header */}
@@ -251,7 +251,7 @@ export default function HomePage() {
                     <span>238 members</span>
                   </div>
                 </div>
-
+                
                 {/* Chat Messages */}
                 <div className="flex-grow p-5 md:p-6 overflow-y-auto space-y-5 md:space-y-6" style={{ maxHeight: "400px" }}>
                   <div className="flex items-start gap-3 md:gap-4">
@@ -268,7 +268,7 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-
+                  
                   <div className="flex items-start gap-3 md:gap-4">
                     <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#9e7a68] flex-shrink-0 flex items-center justify-center text-white font-medium shadow-sm">
                       JD
@@ -284,7 +284,7 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-
+                  
                   <div className="flex items-start gap-3 md:gap-4">
                     <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#9e7a68] bg-opacity-20 flex-shrink-0 flex items-center justify-center text-[#9e7a68] font-medium shadow-sm">
                       LW
@@ -300,7 +300,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-
+                
                 {/* Chat Input */}
                 <div className="p-5 md:p-6 border-t border-neutral-100">
                   <div className="relative">
@@ -334,7 +334,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
+        
         {/* Testimonials Section */}
         <section className="py-16 bg-[#9e7a68] bg-opacity-10">
           <div className="container mx-auto px-4">
@@ -342,7 +342,7 @@ export default function HomePage() {
             <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
               Hear from families who have found support and connection in our community
             </p>
-
+            
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {TESTIMONIALS.map((testimonial, index) => (
                 <TestimonialCard
@@ -357,7 +357,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
+        
         {/* Membership Section */}
         <section className="py-16 md:py-20 bg-white">
           <div className="container mx-auto px-4">
@@ -365,7 +365,7 @@ export default function HomePage() {
             <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
               Select the membership plan that works best for you and your family.
             </p>
-
+            
             <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <SubscriptionCard
                 name={SUBSCRIPTION_PLANS.BASIC.name}
@@ -375,7 +375,7 @@ export default function HomePage() {
                 disabledFeatures={SUBSCRIPTION_PLANS.BASIC.disabledFeatures}
                 onClick={() => navigate("/subscribe")}
               />
-
+              
               <SubscriptionCard
                 name={SUBSCRIPTION_PLANS.FAMILY.name}
                 price={SUBSCRIPTION_PLANS.FAMILY.price}
@@ -385,7 +385,7 @@ export default function HomePage() {
                 isPrimary={true}
                 onClick={() => navigate("/subscribe")}
               />
-
+              
               <SubscriptionCard
                 name={SUBSCRIPTION_PLANS.PREMIUM.name}
                 price={SUBSCRIPTION_PLANS.PREMIUM.price}
@@ -396,14 +396,14 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
+        
         {/* Signup CTA */}
         <section className="py-16 md:py-24 bg-[#9e7a68] relative overflow-hidden">
           {/* Background design elements */}
           <div className="absolute top-0 left-0 w-full h-20 bg-white opacity-5"></div>
           <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-white opacity-10 -mb-10 -mr-10"></div>
           <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-white opacity-10"></div>
-
+          
           <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
             <div className="mb-8 md:mb-12">
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-white mb-4 md:mb-6">Ready to Join The Blended Circle?</h2>
@@ -411,7 +411,7 @@ export default function HomePage() {
                 Connect with families who understand your journey and find the support you need to thrive together.
               </p>
             </div>
-
+            
             {/* Sign Up Form */}
             <div className="max-w-md mx-auto bg-white rounded-xl p-6 md:p-8 shadow-xl">
               <h3 className="text-xl md:text-2xl font-medium mb-6 text-[#9e7a68]">Create Your Account</h3>
@@ -430,7 +430,7 @@ export default function HomePage() {
                       </FormItem>
                     )}
                   />
-
+                  
                   <FormField
                     control={form.control}
                     name="email"
@@ -444,7 +444,7 @@ export default function HomePage() {
                       </FormItem>
                     )}
                   />
-
+                  
                   <FormField
                     control={form.control}
                     name="password"
@@ -458,7 +458,7 @@ export default function HomePage() {
                       </FormItem>
                     )}
                   />
-
+                  
                   <FormField
                     control={form.control}
                     name="agreeTerms"
@@ -480,7 +480,7 @@ export default function HomePage() {
                       </FormItem>
                     )}
                   />
-
+                  
                   <Button 
                     type="submit" 
                     className="w-full bg-[#9e7a68] hover:bg-[#876258] text-white font-medium px-6 py-3.5 mt-4 rounded-full shadow-md transition-all duration-300 transform hover:scale-105 text-base md:text-lg"
@@ -496,7 +496,7 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-
+      
       <Footer />
     </div>
   );
