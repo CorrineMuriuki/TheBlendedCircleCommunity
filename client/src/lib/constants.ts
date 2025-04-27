@@ -37,7 +37,7 @@ export const SUBSCRIPTION_PLANS = {
       "Unlimited private groups",
       "Priority access to experts",
       "Create your own private groups",
-      "20% discount in community shop"
+      "10% discount in community shop"
     ],
     description: "Complete access for committed families"
   }

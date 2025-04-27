@@ -14,24 +14,24 @@ export function formatDate(date: Date): string {
     minute: 'numeric',
     hour12: true,
   };
-  
+
   return new Intl.DateTimeFormat('en-US', options).format(date);
 }
 
 export function formatPrice(priceInCents: number): string {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('en-KE', {
     style: 'currency',
-    currency: 'USD',
-  }).format(priceInCents / 100);
+    currency: 'KES',
+  }).format(priceInCents);
 }
 
 export function getInitials(name: string): string {
   if (!name) return '';
-  
+
   const parts = name.split(' ');
   if (parts.length === 1) {
     return name.slice(0, 2).toUpperCase();
   }
-  
+
   return parts.slice(0, 2).map(part => part[0]).join('').toUpperCase();
 }

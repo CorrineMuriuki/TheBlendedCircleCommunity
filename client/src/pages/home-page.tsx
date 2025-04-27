@@ -135,7 +135,7 @@ export default function HomePage() {
               <div className="md:w-1/2">
                 <h2 className="text-2xl lg:text-3xl font-semibold mb-6">About The Blended Circle</h2>
                 <p className="text-lg mb-4">
-                  Founded in 2021, The Blended Circle is dedicated to supporting and connecting blended families through all of life's transitions.
+                The Blended Circle is a bold, beautiful, and safe online space created by The Fashionable Stepmum for navigating life in blended families. We know step-parenting is layered. It's love, laughter, learning — but also boundaries, healing, and grace.
                 </p>
                 <p className="mb-4">
                   Our community was created by parents who understand the unique joys and challenges of blending families. We believe that with the right support, resources, and connections, blended families can thrive.
@@ -158,7 +158,7 @@ export default function HomePage() {
         {/* Community Preview Section */}
         <section className="py-16 bg-neutral-lightest">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4">Experience Our Community</h2>
+            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4">Community Chat</h2>
             <p className="text-center text-neutral-dark max-w-2xl mx-auto mb-12">
               Get a glimpse of the conversations and connections happening in The Blended Circle.
             </p>
