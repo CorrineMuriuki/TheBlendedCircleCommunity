@@ -34,4 +34,21 @@ export default defineConfig({
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
   },
+  server: {
+    hmr: {
+      overlay: false
+    },
+    watch: {
+      usePolling: false
+    },
+    middlewareMode: true,
+    fs: {
+      strict: true,
+      allow: ['..']
+    }
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+    exclude: ['@replit/vite-plugin-cartographer']
+  }
 });

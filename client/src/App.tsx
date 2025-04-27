@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from "./lib/protected-route";
 import { AuthProvider } from "./hooks/use-auth";
+import { CookieConsent } from "@/components/ui/cookie-consent";
 
 // Pages
 import HomePage from "@/pages/home-page";
@@ -14,6 +15,8 @@ import ShopPage from "@/pages/shop-page";
 import ContactPage from "@/pages/contact-page";
 import ChatPage from "@/pages/chat-page";
 import SubscribePage from "@/pages/subscribe-page";
+import ProfilePage from "@/pages/profile-page";
+import ProfileEditPage from "@/pages/profile-edit-page";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -27,6 +30,8 @@ function Router() {
       <Route path="/contact" component={ContactPage} />
       <ProtectedRoute path="/chat" component={ChatPage} />
       <ProtectedRoute path="/subscribe" component={SubscribePage} />
+      <ProtectedRoute path="/profile" component={ProfilePage} />
+      <ProtectedRoute path="/profile/edit" component={ProfileEditPage} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -38,6 +43,7 @@ function App() {
       <AuthProvider>
         <Router />
         <Toaster />
+        <CookieConsent />
       </AuthProvider>
     </QueryClientProvider>
   );
