@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from "./lib/protected-route";
 import { AuthProvider } from "./hooks/use-auth";
+import { CookieConsent } from "@/components/ui/cookie-consent";
 
 // Pages
 import HomePage from "@/pages/home-page";
@@ -42,6 +43,7 @@ function App() {
       <AuthProvider>
         <Router />
         <Toaster />
+        <CookieConsent />
       </AuthProvider>
     </QueryClientProvider>
   );
