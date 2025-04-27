@@ -42,9 +42,10 @@ app.use((req, res, next) => {
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-
+    
+    console.error(`[ERROR] ${err.stack || err}`);
     res.status(status).json({ message });
-    throw err;
+    // Don't rethrow the error after sending a response
   });
 
   // importantly only setup vite in development and after
@@ -56,10 +57,14 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 3001
+  // ALWAYS serve the app on port 5000
   // this serves both the API and the client.
-  const port = 3001;
-  server.listen(port, () => {
+  // It is the only port that is not firewalled.
+  const port = 5000;
+  server.listen({
+    port: 5000,
+    host: "0.0.0.0",
+  }, () => {
     log(`serving on port ${port}`);
   });
 })();

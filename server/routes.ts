@@ -290,5 +290,166 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Gamification System Routes
+
+  // Achievements routes
+  app.get("/api/achievements", async (req, res, next) => {
+    try {
+      const achievements = await storage.getAchievements();
+      res.json(achievements);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get("/api/achievements/:id", async (req, res, next) => {
+    try {
+      const achievementId = parseInt(req.params.id);
+      if (isNaN(achievementId)) {
+        return res.status(400).json({ message: "Invalid achievement ID" });
+      }
+
+      const achievement = await storage.getAchievementById(achievementId);
+      if (!achievement) {
+        return res.status(404).json({ message: "Achievement not found" });
+      }
+
+      res.json(achievement);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // User achievements routes
+  app.get("/api/user-achievements", async (req, res, next) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "You must be logged in to view your achievements" });
+    }
+
+    try {
+      const userAchievements = await storage.getUserAchievements(req.user.id);
+      res.json(userAchievements);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Check for new achievements (this could be called after activities like posting, attending events, etc.)
+  app.post("/api/check-achievements", async (req, res, next) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "You must be logged in to check achievements" });
+    }
+
+    try {
+      const newAchievements = await storage.checkAndAwardAchievements(req.user.id);
+      
+      // Get the user's current level after achievements
+      const user = await storage.getUser(req.user.id);
+      const currentLevel = user ? await storage.getLevelByPoints(user.activityScore || 0) : null;
+      
+      res.json({
+        newAchievements,
+        currentLevel,
+        totalAchievements: (await storage.getUserAchievements(req.user.id)).length
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Levels routes
+  app.get("/api/levels", async (req, res, next) => {
+    try {
+      const levels = await storage.getLevels();
+      res.json(levels);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  app.get("/api/user-level", async (req, res, next) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "You must be logged in to view your level" });
+    }
+
+    try {
+      const user = await storage.getUser(req.user.id);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const activityScore = user.activityScore || 0;
+      const level = await storage.getLevelByPoints(activityScore);
+      
+      // Calculate progress to next level
+      const allLevels = await storage.getLevels();
+      let nextLevel = null;
+      let progressPercent = 100; // Default to 100% if at max level
+      
+      if (level) {
+        // Find the next level
+        const nextLevelIndex = allLevels.findIndex(l => l.id === level.id) + 1;
+        if (nextLevelIndex < allLevels.length) {
+          nextLevel = allLevels[nextLevelIndex];
+          
+          // Calculate progress percentage
+          const pointsForCurrentLevel = level.pointsRequired;
+          const pointsForNextLevel = nextLevel.pointsRequired;
+          const pointsRange = pointsForNextLevel - pointsForCurrentLevel;
+          const userPointsAboveCurrentLevel = activityScore - pointsForCurrentLevel;
+          
+          progressPercent = Math.min(Math.floor((userPointsAboveCurrentLevel / pointsRange) * 100), 99);
+        }
+      }
+      
+      res.json({
+        currentLevel: level,
+        nextLevel,
+        activityScore: user.activityScore,
+        progressToNextLevel: progressPercent
+      });
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Activity logs routes
+  app.get("/api/activity-logs", async (req, res, next) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "You must be logged in to view activity logs" });
+    }
+
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 20;
+      
+      const activityLogs = await storage.getUserActivityLogs(req.user.id, limit);
+      res.json(activityLogs);
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // Leaderboard route
+  app.get("/api/leaderboard", async (req, res, next) => {
+    try {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+      
+      const leaderboard = await storage.getLeaderboard(limit);
+      
+      // Remove sensitive info from users
+      const sanitizedLeaderboard = leaderboard.map(user => ({
+        id: user.id,
+        username: user.username,
+        displayName: user.displayName,
+        avatarUrl: user.avatarUrl,
+        activityScore: user.activityScore
+      }));
+      
+      res.json(sanitizedLeaderboard);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   return httpServer;
 }
