@@ -133,6 +133,7 @@ export const DEFAULT_CHAT_SPACES = [
 
 export const NAVIGATION_ITEMS = [
   { name: "Home", path: "/" },
+  { name: "Chat", path: "/chat" },
   { name: "Events", path: "/events" },
   { name: "Live", path: "/live" },
   { name: "Shop", path: "/shop" },
