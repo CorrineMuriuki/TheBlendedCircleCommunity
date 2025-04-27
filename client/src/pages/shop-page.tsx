@@ -34,7 +34,7 @@ export default function ShopPage() {
       case 'family':
         return 10;
       case 'premium':
-        return 20;
+        return 10;
       default:
         return 0;
     }
