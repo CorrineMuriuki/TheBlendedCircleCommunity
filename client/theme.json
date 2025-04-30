@@ -1,0 +1,33 @@
+{
+  "name": "blended-circle",
+  "type": "dark",
+  "colors": {
+    "background": "#1a1a1a",
+    "foreground": "#f8f8f8",
+    "card": "#2a2a2a",
+    "card-foreground": "#f8f8f8",
+    "popover": "#2a2a2a",
+    "popover-foreground": "#f8f8f8",
+    "primary": "#6366f1",
+    "primary-foreground": "#ffffff",
+    "secondary": "#4b4b4b",
+    "secondary-foreground": "#f8f8f8",
+    "muted": "#4b4b4b",
+    "muted-foreground": "#a7a7a7",
+    "accent": "#4b4b4b",
+    "accent-foreground": "#f8f8f8",
+    "destructive": "#ef4444",
+    "destructive-foreground": "#ffffff",
+    "border": "#414141",
+    "input": "#414141",
+    "ring": "#6366f1"
+  },
+  "borderRadius": {
+    "lg": "0.5rem",
+    "md": "0.4rem",
+    "sm": "0.25rem"
+  },
+  "fontFamily": {
+    "sans": "Montserrat, sans-serif"
+  }
+} 

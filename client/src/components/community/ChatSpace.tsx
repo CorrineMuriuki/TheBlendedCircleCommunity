@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { MessageBubble } from "./MessageBubble";
 import { Send, Tag, Lock, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { WS_URL, API_URL } from "@/config";
 
 interface Message {
   id: number;
@@ -34,9 +35,7 @@ export function ChatSpace({ id, name, isPrivate, memberCount, currentUser }: Cha
 
   // Create WebSocket connection
   useEffect(() => {
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${protocol}//${window.location.host}/ws`;
-    const ws = new WebSocket(wsUrl);
+    const ws = new WebSocket(WS_URL);
 
     ws.onopen = () => {
       setConnected(true);
@@ -97,7 +96,7 @@ export function ChatSpace({ id, name, isPrivate, memberCount, currentUser }: Cha
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await fetch(`/api/chat-spaces/${id}/messages`);
+        const response = await fetch(`${API_URL}/chat-spaces/${id}/messages`);
         if (!response.ok) {
           throw new Error('Failed to fetch messages');
         }

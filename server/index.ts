@@ -3,6 +3,7 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import compression from 'compression';
 import helmet from 'helmet';
+import { PORT } from './config';
 
 const app = express();
 
@@ -74,8 +75,7 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  const port = 3001;
-  server.listen(port, () => {
-    log(`serving on port ${port}`);
+  server.listen(PORT, () => {
+    log(`serving on port ${PORT}`);
   });
 })();
