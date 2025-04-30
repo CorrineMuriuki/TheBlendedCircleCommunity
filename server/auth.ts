@@ -6,6 +6,7 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
 import { User as SelectUser } from "@shared/schema";
+import { sendWelcomeEmail } from "./email";
 
 declare global {
   namespace Express {
@@ -89,6 +90,14 @@ export function setupAuth(app: Express) {
         password: hashedPassword,
       });
 
+      // Send welcome email
+      try {
+        await sendWelcomeEmail(user.displayName, user.email);
+      } catch (emailError) {
+        console.error("Failed to send welcome email:", emailError);
+        // Don't fail the registration if email fails
+      }
+
       req.login(user, (err) => {
         if (err) return next(err);
         res.status(201).json(user);
@@ -132,6 +141,22 @@ export function setupAuth(app: Express) {
       }
     } catch (error) {
       next(error);
+    }
+  });
+
+  // Test email endpoint
+  app.post("/api/test-email", async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+      }
+
+      await sendWelcomeEmail("Test User", email);
+      res.status(200).json({ message: "Test email sent successfully" });
+    } catch (error: any) {
+      console.error("Error sending test email:", error);
+      res.status(500).json({ message: "Failed to send test email", error: error.message });
     }
   });
 }
