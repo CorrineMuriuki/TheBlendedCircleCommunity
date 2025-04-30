@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { ProtectedRoute } from "./lib/protected-route";
 import { AuthProvider } from "./hooks/use-auth";
 import { CookieConsent } from "@/components/ui/cookie-consent";
+import { ForgotPassword } from './components/auth/ForgotPassword';
+import { ResetPassword } from './components/auth/ResetPassword';
 
 // Pages
 import HomePage from "@/pages/home-page";
@@ -32,6 +34,8 @@ function Router() {
       <ProtectedRoute path="/subscribe" component={SubscribePage} />
       <ProtectedRoute path="/profile" component={ProfilePage} />
       <ProtectedRoute path="/profile/edit" component={ProfileEditPage} />
+      <Route path="/forgot-password" component={ForgotPassword} />
+      <Route path="/reset-password" component={ResetPassword} />
       <Route component={NotFound} />
     </Switch>
   );

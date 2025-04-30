@@ -3,6 +3,7 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import compression from 'compression';
 import helmet from 'helmet';
+import { requestPasswordReset, resetPassword } from './password-reset';
 
 const app = express();
 
@@ -55,6 +56,27 @@ app.use((req, res, next) => {
   });
 
   next();
+});
+
+// Password reset endpoints
+app.post('/api/auth/request-password-reset', async (req, res) => {
+  try {
+    const { email } = req.body;
+    await requestPasswordReset(email);
+    res.json({ success: true });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.post('/api/auth/reset-password', async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    await resetPassword(token, newPassword);
+    res.json({ success: true });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
 (async () => {

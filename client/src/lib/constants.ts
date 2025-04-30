@@ -65,11 +65,6 @@ export const FEATURES = [
     description: "Participate in live discussions, Q&As, and expert-led sessions on family topics."
   },
   {
-    icon: "leaderboard",
-    title: "Engagement Rewards",
-    description: "Earn activity points and recognition for your contributions to the community."
-  },
-  {
     icon: "shopping_bag",
     title: "Community Shop",
     description: "Access to exclusive merchandise and resources specifically for blended families."
@@ -133,6 +128,7 @@ export const DEFAULT_CHAT_SPACES = [
 
 export const NAVIGATION_ITEMS = [
   { name: "Home", path: "/" },
+  { name: "Chat", path: "/chat" },
   { name: "Events", path: "/events" },
   { name: "Live", path: "/live" },
   { name: "Shop", path: "/shop" },
