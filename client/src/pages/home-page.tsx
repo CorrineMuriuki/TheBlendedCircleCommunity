@@ -17,6 +17,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
+import Image1 from './images/Image1.jpg';
+import Image2 from './images/Image2.jpg';
 
 const signupSchema = z.object({
   name: z.string().min(1, "Name is required"),

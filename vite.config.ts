@@ -37,16 +37,18 @@ export default defineConfig({
     assetsDir: 'assets',
   },
   server: {
+    port: 3000,
     hmr: {
-      overlay: false
+      overlay: true
     },
     watch: {
-      usePolling: false
+      usePolling: true
     },
-    middlewareMode: true,
-    fs: {
-      strict: true,
-      allow: ['..']
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true
+      }
     }
   },
   optimizeDeps: {

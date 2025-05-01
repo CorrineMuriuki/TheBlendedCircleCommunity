@@ -13,10 +13,10 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       imgSrc: ["'self'", "data:", "https:", "http:", "blob:"],
       connectSrc: ["'self'", "ws:", "wss:"],
-      fontSrc: ["'self'", "data:", "https:"],
+      fontSrc: ["'self'", "data:", "https:", "https://fonts.gstatic.com"],
     },
   },
 }));
