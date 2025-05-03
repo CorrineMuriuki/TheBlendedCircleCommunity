@@ -69,12 +69,12 @@ export default function HomePage() {
           {/* Floating background images */}
           <div className="absolute inset-0">
             <img 
-              src="/attached_assets/DSC08955.jpg"
+              src="/assets/DSC08955.jpg"
               alt="Background"
               className="absolute w-64 h-64 object-cover rounded-2xl opacity-20 blur-sm -top-10 -right-10 rotate-12 animate-float-slow"
             />
             <img 
-              src="/attached_assets/DSC08955.jpg"
+              src="/assets/DSC08955.jpg"
               alt="Background"
               className="absolute w-48 h-48 object-cover rounded-2xl opacity-15 blur-sm -bottom-8 -left-8 -rotate-12 animate-float"
             />
@@ -111,7 +111,7 @@ export default function HomePage() {
               <div className="relative">
                 <div className="absolute -inset-0.5 bg-white rounded-lg opacity-20 blur"></div>
                 <img 
-                  src="/attached_assets/Image1.jpg.jpg" 
+                  src="/assets/Image1.jpg.jpg" 
                   alt="The Blended Circle Community" 
                   className="rounded-lg shadow-xl max-w-full h-auto relative" 
                 />

@@ -1,10 +1,20 @@
+import 'dotenv/config';
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import path from "path";
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Serve static files from public directory
+app.use('/public', express.static(path.join(__dirname, '..', 'public')));
+// Serve static files from attached_assets directory
+app.use('/assets', express.static(path.join(__dirname, '..', 'attached_assets')));
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -57,14 +67,13 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
+  // Use port 4000 instead of 3000
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 4000;
+  
   server.listen({
-    port: 5000,
+    port,
     host: "0.0.0.0",
   }, () => {
-    log(`serving on port ${port}`);
+    log(`Server running at http://localhost:${port}`);
   });
 })();

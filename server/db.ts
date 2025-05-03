@@ -1,24 +1,15 @@
-
-import { drizzle } from 'drizzle-orm/neon-http';
-import { neon, neonConfig } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 import * as schema from '@shared/schema';
-import WebSocket from 'ws';
 
-// Configure WebSocket fallback
-neonConfig.webSocketConstructor = WebSocket;
-neonConfig.useSecureWebSocket = true;
-neonConfig.pipelineTLS = true;
-neonConfig.pipelineConnect = true;
-
-// Create a connection pool with keep-alive settings
-const sql = neon(process.env.DATABASE_URL!, {
-  connectionSettings: {
-    keepAlive: true,
-    keepAliveInitialDelay: 10000, // 10 seconds
-  },
+// Create a connection pool with standard PostgreSQL
+const client = postgres(process.env.DATABASE_URL!, {
+  max: 10, // Maximum number of connections in the pool
+  idle_timeout: 20, // Max seconds a connection can be idle
+  connect_timeout: 10, // Max seconds to connect
 });
 
-export const db = drizzle(sql, { schema });
+export const db = drizzle(client, { schema });
 
 // Export for use in potential migrations
-export { sql };
+export { client as sql };

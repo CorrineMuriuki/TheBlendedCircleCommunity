@@ -15,6 +15,13 @@ declare global {
 
 const scryptAsync = promisify(scrypt);
 
+// Dummy welcome email function (would be implemented with a real email service in production)
+async function sendWelcomeEmail(name: string, email: string) {
+  console.log(`[Email Service] Welcome email sent to ${name} at ${email}`);
+  // In a real app, you'd use a service like SendGrid, Mailgun, etc.
+  return true;
+}
+
 async function hashPassword(password: string) {
   const salt = randomBytes(16).toString("hex");
   const buf = (await scryptAsync(password, salt, 64)) as Buffer;

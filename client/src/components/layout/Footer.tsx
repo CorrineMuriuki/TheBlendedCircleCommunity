@@ -49,7 +49,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <img 
-                src="/attached_assets/TBC dark@4x.webp" 
+                src="/assets/TBC dark@4x.webp" 
                 alt="The Blended Circle Logo" 
                 className="h-10 w-auto object-contain brightness-0 invert"
               />

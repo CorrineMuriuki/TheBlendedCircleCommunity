@@ -13,6 +13,133 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication routes
   setupAuth(app);
   
+  // API Documentation endpoint
+  app.get("/api/docs", (req, res) => {
+    const apiEndpoints = [
+      { 
+        path: "/api/docs", 
+        method: "GET", 
+        description: "Get API documentation",
+        auth: false
+      },
+      { 
+        path: "/api/register", 
+        method: "POST", 
+        description: "Register a new user",
+        auth: false,
+        body: {
+          username: "string",
+          email: "string",
+          password: "string",
+          displayName: "string (optional)"
+        }
+      },
+      { 
+        path: "/api/login", 
+        method: "POST", 
+        description: "Login with username and password",
+        auth: false,
+        body: {
+          username: "string",
+          password: "string"
+        }
+      },
+      { 
+        path: "/api/logout", 
+        method: "POST", 
+        description: "Logout the current user",
+        auth: true
+      },
+      { 
+        path: "/api/user", 
+        method: "GET", 
+        description: "Get the current user's information",
+        auth: true
+      },
+      { 
+        path: "/api/newsletter-subscribe", 
+        method: "POST", 
+        description: "Subscribe to the newsletter",
+        auth: false,
+        body: {
+          email: "string"
+        }
+      },
+      { 
+        path: "/api/chat-spaces", 
+        method: "GET", 
+        description: "Get all chat spaces (including private ones if authenticated)",
+        auth: false
+      },
+      { 
+        path: "/api/chat-spaces/:id", 
+        method: "GET", 
+        description: "Get a specific chat space by ID",
+        auth: false
+      },
+      { 
+        path: "/api/chat-spaces", 
+        method: "POST", 
+        description: "Create a new chat space",
+        auth: true,
+        body: {
+          name: "string",
+          description: "string",
+          isPrivate: "boolean"
+        }
+      },
+      { 
+        path: "/api/chat-spaces/:id/messages", 
+        method: "GET", 
+        description: "Get messages for a specific chat space",
+        auth: false
+      },
+      { 
+        path: "/api/events", 
+        method: "GET", 
+        description: "Get all events",
+        auth: false
+      },
+      { 
+        path: "/api/events/:id", 
+        method: "GET", 
+        description: "Get a specific event by ID",
+        auth: false
+      },
+      { 
+        path: "/api/events/:id/attend", 
+        method: "POST", 
+        description: "Register to attend an event",
+        auth: true
+      },
+      { 
+        path: "/api/products", 
+        method: "GET", 
+        description: "Get all products",
+        auth: false
+      },
+      { 
+        path: "/api/initiate-mpesa-payment", 
+        method: "POST", 
+        description: "Initiate an M-PESA payment",
+        auth: true,
+        body: {
+          amount: "number",
+          phoneNumber: "string",
+          planType: "string"
+        }
+      }
+    ];
+
+    res.json({
+      name: "The Blended Circle API",
+      version: "1.0",
+      description: "API endpoints for The Blended Circle community platform",
+      authentication: "Session-based authentication using Passport.js",
+      endpoints: apiEndpoints
+    });
+  });
+  
   // Create HTTP server
   const httpServer = createServer(app);
   
