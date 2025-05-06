@@ -123,8 +123,8 @@ export default function HomePage() {
         {/* Features Section */}
         <section className="py-16 md:py-20 bg-white">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4 text-[#9e7a68]">What Makes Our Community Special</h2>
-            <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
+            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4 text-[#9e7a68] font-montserrat">What Makes Our Community Special</h2>
+            <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12 font-montserrat">
               Discover the unique benefits of joining our supportive community
             </p>
             
