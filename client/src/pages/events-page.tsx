@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -12,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarIcon, SearchIcon, UserIcon } from "lucide-react";
 import { Loader2 } from "lucide-react";
-
 
 // Sample events data
 const SAMPLE_EVENTS = [
@@ -47,17 +47,16 @@ const SAMPLE_EVENTS = [
     attendees: []
   }
 ];
+
 export default function EventsPage() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("all");
   
-  // Fetch events
-  const { data: events = [], isLoading } = useQuery({
-    queryKey: ["/api/events"],
-    refetchOnWindowFocus: false,
-  });
+  // Use sample events for now
+  const events = SAMPLE_EVENTS;
+  const isLoading = false;
   
   // Attend event mutation
   const attendEventMutation = useMutation({
@@ -82,13 +81,11 @@ export default function EventsPage() {
   });
   
   // Filter events based on search query and tab
-  const filteredEvents = events.filter((event: any) => {
-    // Filter by search query
+  const filteredEvents = events.filter((event) => {
     const matchesSearch = 
       event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event.description.toLowerCase().includes(searchQuery.toLowerCase());
     
-    // Filter by tab
     if (activeTab === "all") return matchesSearch;
     return matchesSearch && event.eventType === activeTab;
   });
@@ -107,11 +104,6 @@ export default function EventsPage() {
     attendEventMutation.mutate(eventId);
   };
   
-  // Scroll to top on initial render
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -122,7 +114,7 @@ export default function EventsPage() {
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-3xl lg:text-4xl font-semibold mb-4">Upcoming Events</h1>
             <p className="text-lg opacity-90 max-w-2xl mx-auto">
-              Join our virtual events designed specifically for blended families. Learn, connect, and grow together.
+              Join our events designed specifically for blended families. Learn, connect, and grow together.
             </p>
           </div>
         </section>
@@ -165,7 +157,7 @@ export default function EventsPage() {
               </div>
             ) : filteredEvents.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredEvents.map((event: any) => (
+                {filteredEvents.map((event) => (
                   <EventCard
                     key={event.id}
                     id={event.id}
@@ -174,9 +166,9 @@ export default function EventsPage() {
                     imageUrl={event.imageUrl}
                     startDate={event.startDate}
                     eventType={event.eventType}
-                    attendeeCount={event.attendeeCount || 0}
+                    attendeeCount={event.attendeeCount}
                     onRsvp={handleRsvp}
-                    isAttending={user && event.attendees?.includes(user.id)}
+                    isAttending={user && event.attendees.includes(user.id)}
                     isLoading={attendEventMutation.isPending}
                   />
                 ))}
