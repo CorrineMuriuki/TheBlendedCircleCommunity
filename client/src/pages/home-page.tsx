@@ -149,25 +149,17 @@ export default function HomePage() {
                 <h2 className="text-2xl lg:text-3xl font-semibold mb-6 text-[#9e7a68]">Who We Are</h2>
                 <p className="text-lg mb-4 text-gray-700">
                   The Blended Circle is a bold, beautiful, and safe online space created by 'The' Fashionable Stepmum for navigating life in blended families. We know step-parenting is layered. It's love, laughter, learning — but also boundaries, healing, and grace.
-                </p>
+                  </p>
                 <p className="mb-4 text-gray-700">
                   We exist to hold space for:<br/>
-                  ✔ Parents-Step-parents, Biological Moms, Co-Parents<br/>
-                  ✔ Children- Step-children, bio-children<br/>
-                  ✔ Women Loving Partners with Children<br/>
-                  ✔ Bonus Families eco-system
+                  Parents-Step-parents, Biological Moms, Co-Parents, Children- Step-children, bio-children, Women Loving Partners with Children and the Bonus Families eco-system
                 </p>
                 <h3 className="text-xl font-semibold mb-3 text-[#9e7a68]">Our Why</h3>
                 <p className="mb-4 text-gray-700">
                   Being part of a blended family isn't about fitting into a mold —Because every family's story matters. Support, Strength, Stability
                 </p>
                 <p className="mb-6 text-gray-700">
-                  Here, we embrace:<br/>
-                  → Family as chosen and built<br/>
-                  → Conversations that heal<br/>
-                  → Style that empowers<br/>
-                  → Fashion as self-expression<br/><br/>
-                  We're not here to be perfect — we're here to be authentic, radiant, and resilient.
+                We're not here to be perfect — we're here to be authentic, radiant, and resilient.
                 </p>
                 <Button 
                   asChild
