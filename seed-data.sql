@@ -48,7 +48,7 @@ END $$;
 -- Sample products (no user association needed)
 INSERT INTO products (name, description, price, image_url, inventory, created_at)
 VALUES
-    ('The Blended Circle T-Shirt', 'Comfortable cotton t-shirt with The Blended Circle logo', 2499, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab', 100, NOW()),
+    ('DIY Blended Family Painting Kit', 'Custom family painting kit with your submitted family photo printed on canvas - Pre-order Only', 2499, 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b', 0, NOW()),
     ('Blended Family Planner', 'A specialized planner designed for managing blended family schedules', 3499, 'https://images.unsplash.com/photo-1506784365847-bbad939e9335', 50, NOW()),
     ('Family Communication Cards', 'Card prompts to facilitate meaningful conversations between family members', 1999, 'https://images.unsplash.com/photo-1596495718165-fb1f85de159c', 75, NOW())
 ON CONFLICT (id) DO NOTHING;
