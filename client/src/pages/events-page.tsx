@@ -18,12 +18,12 @@ import { Loader2 } from "lucide-react";
 const SAMPLE_EVENTS = [
   {
     id: 1,
-    title: "Effective Communication in Blended Families",
-    description: "Join family therapist Dr. Angela Martinez as she shares practical communication strategies for blended families.",
+    title: "Navigating Co-Parenting Challenges",
+    description: "Expert advice on navigating the unique challenges of co-parenting in blended families.",
     imageUrl: "/images/stepmum-podcast.jpg",
-    startDate: "2024-02-15T14:00:00Z",
+    startDate: "2025-06-15T14:00:00Z",
     eventType: "workshop",
-    attendeeCount: 45,
+    attendeeCount: 100,
     attendees: []
   },
   {
@@ -31,9 +31,9 @@ const SAMPLE_EVENTS = [
     title: "Virtual Family Game Night",
     description: "Bring the whole family for a fun evening of virtual games designed to strengthen family bonds across households.",
     imageUrl: "/images/stepmum-podcast.jpg",
-    startDate: "2024-02-22T18:00:00Z",
+    startDate: "2025-07-26T18:00:00Z",
     eventType: "social",
-    attendeeCount: 28,
+    attendeeCount: 100,
     attendees: []
   },
   {
@@ -41,7 +41,7 @@ const SAMPLE_EVENTS = [
     title: "Co-Parenting Success Strategies",
     description: "Expert panel discussion featuring family counselors and successful co-parents sharing their insights.",
     imageUrl: "/images/stepmum-podcast.jpg",
-    startDate: "2024-03-03T15:00:00Z",
+    startDate: "2025-08-16T15:00:00Z",
     eventType: "live",
     attendeeCount: 72,
     attendees: []
