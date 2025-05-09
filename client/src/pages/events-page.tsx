@@ -13,6 +13,40 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CalendarIcon, SearchIcon, UserIcon } from "lucide-react";
 import { Loader2 } from "lucide-react";
 
+
+// Sample events data
+const SAMPLE_EVENTS = [
+  {
+    id: 1,
+    title: "Effective Communication in Blended Families",
+    description: "Join family therapist Dr. Angela Martinez as she shares practical communication strategies for blended families.",
+    imageUrl: "/images/stepmum-podcast.jpg",
+    startDate: "2024-02-15T14:00:00Z",
+    eventType: "workshop",
+    attendeeCount: 45,
+    attendees: []
+  },
+  {
+    id: 2,
+    title: "Virtual Family Game Night",
+    description: "Bring the whole family for a fun evening of virtual games designed to strengthen family bonds across households.",
+    imageUrl: "/images/stepmum-podcast.jpg",
+    startDate: "2024-02-22T18:00:00Z",
+    eventType: "social",
+    attendeeCount: 28,
+    attendees: []
+  },
+  {
+    id: 3,
+    title: "Co-Parenting Success Strategies",
+    description: "Expert panel discussion featuring family counselors and successful co-parents sharing their insights.",
+    imageUrl: "/images/stepmum-podcast.jpg",
+    startDate: "2024-03-03T15:00:00Z",
+    eventType: "live",
+    attendeeCount: 72,
+    attendees: []
+  }
+];
 export default function EventsPage() {
   const { user } = useAuth();
   const { toast } = useToast();
