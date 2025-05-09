@@ -156,7 +156,7 @@ export function ChatSpace({ id, name, isPrivate, memberCount, currentUser }: Cha
       {/* Chat Header */}
       <div className="p-4 border-b border-neutral-light flex items-center justify-between">
         <div className="flex items-center">
-          {isPrivate ? <Lock size={20} className="mr-2" /> : <Tag size={20} className="mr-2" />}
+          {isPrivate && <Lock size={20} className="mr-2" />}
           <h3 className="font-medium">{name}</h3>
         </div>
         <div className="flex items-center text-sm text-neutral">

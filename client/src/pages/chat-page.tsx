@@ -232,11 +232,8 @@ export default function ChatPage() {
                         onClick={() => setSelectedChatSpaceId(space.id)}
                       >
                         <div className="flex items-center">
-                          {space.isPrivate ? (
-                            <Lock className="mr-2 h-4 w-4 flex-shrink-0" />
-                          ) : (
-                            <Tag className="mr-2 h-4 w-4 flex-shrink-0" />
-                          )}
+                          {space.isPrivate && <Lock className="mr-2 h-4 w-4 flex-shrink-0" />}
+                          
                           <span className="truncate">{space.name}</span>
                         </div>
                         {space.memberCount && (

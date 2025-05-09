@@ -200,7 +200,7 @@ export default function HomePage() {
           </div>
         </section>
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4 text-[#9e7a68]">Experience Our Community</h2>
+            <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4 text-[#9e7a68]">Community Chat</h2>
             <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
               Get a glimpse of the conversations and connections happening in The Blended Circle.
             </p>
@@ -213,7 +213,7 @@ export default function HomePage() {
                   {DEFAULT_CHAT_SPACES.map((space, index) => (
                     <li key={index}>
                       <Link href={user ? "/chat" : "/auth"} className={`p-3 md:p-4 flex items-center rounded-md hover:bg-[#9e7a68] hover:bg-opacity-10 hover:text-[#9e7a68] transition-colors ${index === 0 ? 'bg-[#9e7a68] bg-opacity-10 text-[#9e7a68]' : ''}`}>
-                        <span className="material-icons mr-2 md:mr-3 text-base md:text-lg">{space.isPrivate ? 'lock' : 'tag'}</span>
+                        {space.isPrivate && <span className="material-icons mr-2 md:mr-3 text-base md:text-lg">lock</span>}
                         <span className="font-medium">{space.name}</span>
                         {space.isPrivate && (
                           <span className="ml-auto text-xs bg-[#9e7a68] text-white px-2 py-1 rounded-full shadow-sm">
