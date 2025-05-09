@@ -102,8 +102,8 @@ export default function ContactPage() {
                     <CardContent className="p-4 flex items-start gap-3">
                       <Phone className="h-5 w-5 mt-0.5 text-primary" />
                       <div>
-                        <h3 className="font-medium">Phone</h3>
-                        <p className="text-neutral-dark">(555) 123-4567</p>
+                        <h3 className="font-medium">WhatsApp Only</h3>
+                        <p className="text-neutral-dark">+254740294799</p>
                         <p className="text-xs text-neutral">Monday to Friday, 9am to 5pm EST</p>
                       </div>
                     </CardContent>
