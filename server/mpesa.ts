@@ -78,7 +78,8 @@ export async function initiateSTKPush(
       PartyA: formattedPhone,
       PartyB: process.env.MPESA_SHORTCODE,
       PhoneNumber: formattedPhone,
-      CallBackURL: `${process.env.BASE_URL || 'https://example.com'}/api/mpesa/callback`,
+      // Using the new active ngrok URL for callbacks
+      CallBackURL: process.env.MPESA_CALLBACK_URL || 'https://a394-197-155-73-23.ngrok-free.app/api/mpesa/callback',
       AccountReference: accountReference,
       TransactionDesc: description,
     };
