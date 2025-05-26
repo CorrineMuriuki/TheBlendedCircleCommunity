@@ -55,9 +55,6 @@ export default function Header() {
 
           {user ? (
             <>
-              <Link href="/chat" className={`font-medium ${location === '/chat' ? 'text-primary' : 'text-neutral-dark hover:text-primary'} transition-colors`}>
-                Chat
-              </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-8 w-8 rounded-full">

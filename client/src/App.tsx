@@ -10,7 +10,6 @@ import { CookieConsent } from "@/components/ui/cookie-consent";
 import HomePage from "@/pages/home-page";
 import AuthPage from "@/pages/auth-page";
 import EventsPage from "@/pages/events-page";
-import LiveEventsPage from "@/pages/live-events-page";
 import ShopPage from "@/pages/shop-page";
 import ContactPage from "@/pages/contact-page";
 import ChatPage from "@/pages/chat-page";
@@ -25,7 +24,6 @@ function Router() {
       <Route path="/" component={HomePage} />
       <Route path="/auth" component={AuthPage} />
       <Route path="/events" component={EventsPage} />
-      <Route path="/live" component={LiveEventsPage} />
       <Route path="/shop" component={ShopPage} />
       <Route path="/contact" component={ContactPage} />
       <ProtectedRoute path="/chat" component={ChatPage} />

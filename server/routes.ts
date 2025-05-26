@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
 import { setupWebSocket } from "./websocket";
-import { initiateSTKPush, processSTKCallback } from "./mpesa";
+import { initiateSTKPush, processSTKCallback, testMpesaAuth } from "./mpesa";
 
 if (!process.env.MPESA_CONSUMER_KEY || !process.env.MPESA_CONSUMER_SECRET) {
   console.warn('M-PESA API credentials not provided. Payment functionality will be limited.');
@@ -12,6 +12,27 @@ if (!process.env.MPESA_CONSUMER_KEY || !process.env.MPESA_CONSUMER_SECRET) {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication routes
   setupAuth(app);
+  
+  // Test M-PESA authentication endpoint
+  app.get("/api/test-mpesa-auth", async (req, res, next) => {
+    try {
+      console.log('Testing M-PESA authentication...');
+      const result = await testMpesaAuth();
+      console.log('M-PESA authentication successful:', result);
+      res.json({ success: true, data: result });
+    } catch (error: any) {
+      console.error('M-PESA authentication failed:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
+      res.status(500).json({ 
+        success: false, 
+        error: error.message || 'Failed to test M-PESA authentication',
+        details: error.response?.data
+      });
+    }
+  });
   
   // API Documentation endpoint
   app.get("/api/docs", (req, res) => {

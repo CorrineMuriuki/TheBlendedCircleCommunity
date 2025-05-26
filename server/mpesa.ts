@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Buffer } from 'buffer';
+import unirest from 'unirest';
 
 // M-PESA API URLs - Using sandbox URLs by default
 const BASE_URL = process.env.MPESA_PRODUCTION === 'true' 
@@ -10,23 +11,100 @@ const TOKEN_URL = `${BASE_URL}/oauth/v1/generate?grant_type=client_credentials`;
 const STK_PUSH_URL = `${BASE_URL}/mpesa/stkpush/v1/processrequest`;
 
 /**
- * Generate an access token for M-PESA API
+ * Test M-PESA authentication
  */
-export async function getAccessToken() {
+export async function testMpesaAuth() {
   try {
+    if (!process.env.MPESA_CONSUMER_KEY || !process.env.MPESA_CONSUMER_SECRET) {
+      throw new Error('M-PESA credentials not provided');
+    }
+
+    // Format the credentials exactly as required by M-PESA sandbox
     const auth = Buffer.from(
       `${process.env.MPESA_CONSUMER_KEY}:${process.env.MPESA_CONSUMER_SECRET}`
     ).toString('base64');
 
+    console.log('Testing M-PESA authentication...');
+    console.log('Token URL:', TOKEN_URL);
+
+    // Use axios instead of unirest for better error handling
     const response = await axios.get(TOKEN_URL, {
       headers: {
-        Authorization: `Basic ${auth}`,
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/json'
       },
+      timeout: 10000
+    });
+
+    console.log('M-PESA Auth Test Response:', {
+      status: response.status,
+      data: response.data
+    });
+
+    return response.data;
+  } catch (error: any) {
+    console.error('M-PESA Auth Test Error:', {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status,
+      config: {
+        url: error.config?.url,
+        method: error.config?.method,
+        headers: {
+          ...error.config?.headers,
+          Authorization: '[REDACTED]' // Don't log the actual auth header
+        }
+      }
+    });
+    throw error;
+  }
+}
+
+/**
+ * Generate an access token for M-PESA API
+ */
+export async function getAccessToken() {
+  try {
+    if (!process.env.MPESA_CONSUMER_KEY || !process.env.MPESA_CONSUMER_SECRET) {
+      throw new Error('M-PESA credentials not provided');
+    }
+
+    // Format the credentials exactly as required by M-PESA sandbox
+    const auth = Buffer.from(
+      `${process.env.MPESA_CONSUMER_KEY}:${process.env.MPESA_CONSUMER_SECRET}`
+    ).toString('base64');
+
+    console.log('Attempting to get M-PESA access token...');
+    console.log('Token URL:', TOKEN_URL);
+
+    const response = await axios.get(TOKEN_URL, {
+      headers: {
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/json'
+      },
+      timeout: 10000
+    });
+
+    console.log('M-PESA token response:', {
+      status: response.status,
+      data: response.data
     });
 
     return response.data.access_token;
-  } catch (error) {
-    console.error('Error generating M-PESA access token:', error);
+  } catch (error: any) {
+    console.error('Error generating M-PESA access token:', {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status,
+      config: {
+        url: error.config?.url,
+        method: error.config?.method,
+        headers: {
+          ...error.config?.headers,
+          Authorization: '[REDACTED]' // Don't log the actual auth header
+        }
+      }
+    });
     throw new Error('Failed to generate M-PESA access token');
   }
 }

@@ -46,6 +46,30 @@ app.use((req, res, next) => {
   next();
 });
 
+// Validate required environment variables
+const requiredEnvVars = [
+  'MPESA_CONSUMER_KEY',
+  'MPESA_CONSUMER_SECRET',
+  'MPESA_SHORTCODE',
+  'MPESA_PASSKEY'
+];
+
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+if (missingEnvVars.length > 0) {
+  console.error('Missing required environment variables:', missingEnvVars);
+  process.exit(1);
+}
+
+// Log M-PESA configuration (without sensitive data)
+console.log('M-PESA Configuration:');
+console.log('- Base URL:', process.env.MPESA_PRODUCTION === 'true' ? 'Production' : 'Sandbox');
+console.log('- Shortcode:', process.env.MPESA_SHORTCODE);
+console.log('- Production Mode:', process.env.MPESA_PRODUCTION === 'true');
+console.log('- Consumer Key exists:', !!process.env.MPESA_CONSUMER_KEY);
+console.log('- Consumer Secret exists:', !!process.env.MPESA_CONSUMER_SECRET);
+console.log('- Consumer Key length:', process.env.MPESA_CONSUMER_KEY?.length || 0);
+console.log('- Consumer Secret length:', process.env.MPESA_CONSUMER_SECRET?.length || 0);
+
 (async () => {
   const server = await registerRoutes(app);
 
